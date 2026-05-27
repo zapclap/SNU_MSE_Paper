@@ -1,0 +1,50 @@
+review_project:
+  name: "김영광_암모니아질화_리뷰논문"
+  topic_request: "현재 암모니아 질화와 관련되어 가장 핫한 주제를 찾아서 리뷰 논문 작성"
+  selected_topic: "암모니아 에너지 시스템에서의 원치 않는 질화 및 질화부식"
+  topic_rationale: "2024-2026년 문헌에서 암모니아 크래킹, 암모니아 연소, 가스터빈, 선박엔진, 저장·수송 인프라의 재료 신뢰성 문제가 집중적으로 증가하고 있음."
+  target_pages: 50
+  language: "ko"
+  citation_style: "numeric"
+  image_mode: "source_figures_with_references"
+  placeholder_draft_approved: false
+
+metadata:
+  author: "김영광"
+  korean_title: "암모니아 에너지 시스템에서의 원치 않는 질화 및 질화부식: 기구, 합금 의존성, 억제 전략에 관한 리뷰"
+  english_title: "Unwanted Nitriding and Nitridation Corrosion in Ammonia Energy Systems: Mechanisms, Alloy Dependence, and Mitigation Strategies"
+  degree_name: ""
+  school_name: "서울대학교 대학원"
+  department: ""
+  major: ""
+  advisor: ""
+  submission_month: ""
+  approval_month: ""
+  acknowledgements: false
+  committee:
+    chair: "이명규"
+    vice_chair: "한흥남"
+    members:
+      - role: "외부심사위원"
+        name: "김동익"
+
+preflight:
+  unresolved_questions: []
+
+layout_rules:
+  front_matter:
+    page_1: "cover"
+    page_2: "approval"
+    page_3: "korean_abstract"
+    omit_separate_submission_page: true
+    omit_acknowledgements_by_default: true
+  typography:
+    korean_font: "Batang"
+    english_font: "Times New Roman"
+    font_color: "000000"
+    allow_colored_text: false
+  figures_and_tables:
+    isolated_pages: true
+    allowed_content_on_item_page: ["figure_or_table", "caption"]
+    default_items_per_page: 1
+    max_items_per_page_when_small: 2

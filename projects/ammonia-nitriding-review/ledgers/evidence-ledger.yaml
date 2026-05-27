@@ -1,0 +1,86 @@
+date_performed: "2026-05-27"
+topic_request: "현재 암모니아 질화와 관련되어 가장 핫한 주제를 찾아서 리뷰 논문 작성"
+selected_topic: "암모니아 에너지 시스템에서의 원치 않는 질화 및 질화부식"
+topic_rationale: >
+  2024-2026년 문헌에서 암모니아 질화가 표면경화 공정을 넘어 암모니아 크래킹,
+  암모니아 연소, 가스터빈, 선박엔진, 저장·수송 인프라의 재료 신뢰성 문제로
+  집중적으로 등장한다. 특히 2026년 구조용 강 질화 열화 리뷰와 반응기·엔진·코팅
+  논문들이 같은 병목을 가리킨다.
+
+search_queries:
+  - "2025 review ammonia nitriding plasma nitriding green ammonia nitrogen source steel review"
+  - "high temperature ammonia nitriding degradation structural materials steels ammonia cracking reactor 2024 2025"
+  - "ammonia combustion nitriding metal wall stainless steel 2025 water vapor nitriding DOI"
+  - "ammonia cracking nitridation resistance aluminization pre-oxidation 2026 DOI"
+
+sources:
+  - id: R01
+    title: "Nitriding-Induced Degradation of Structural Steels in High-Temperature Ammonia Utilizing Systems"
+    authors: "Doowon Jeong; Hwasung Yeom"
+    year: 2026
+    venue: "Korean Journal of Chemical Engineering"
+    doi: "10.1007/s11814-026-00706-2"
+    url: "https://link.springer.com/article/10.1007/s11814-026-00706-2"
+    source_type: "review"
+    used_for: ["topic", "mechanism", "source_figures", "roadmap"]
+    confidence: "verified"
+  - id: R02
+    title: "High-temperature corrosion of steels by nitridation in ammonia: Degradation mechanisms and comparison between steel grades"
+    authors: "Sofia Ojasalo; Atte Antikainen; Supriya Nandy; Verner Nurmi; Martin Bojinov; Vasil Karastoyanov; Elina Huttunen-Saarivirta"
+    year: 2026
+    venue: "Fuel"
+    doi: "10.1016/j.fuel.2026.138872"
+    url: "https://www.sciencedirect.com/science/article/pii/S0016236126006253"
+    source_type: "primary"
+    used_for: ["steel_grade_comparison", "engine_context"]
+    confidence: "verified"
+  - id: R03
+    title: "Effects of wall temperature and water vapor on the nitriding of stainless steel induced by ammonia flames"
+    authors: "Daoyuan Wang; Yujian Xing; Minhyeok Lee; Yuji Suzuki"
+    year: 2024
+    venue: "Proceedings of the Combustion Institute"
+    doi: "10.1016/j.proci.2024.105562"
+    url: "https://www.sciencedirect.com/science/article/pii/S1540748924003705"
+    source_type: "primary"
+    used_for: ["flame_wall_interaction", "water_vapor_effect"]
+    confidence: "verified"
+  - id: R04
+    title: "Effect of water vapor on nitriding of stainless steel walls induced by ammonia flames"
+    authors: "Yujian Xing; Minhyeok Lee; Yuji Suzuki"
+    year: 2025
+    venue: "Proceedings of the Combustion Institute"
+    doi: "10.1016/j.proci.2025.105831"
+    url: "https://www.sciencedirect.com/science/article/pii/S1540748925000458"
+    source_type: "primary"
+    used_for: ["flame_wall_interaction", "mitigation"]
+    confidence: "verified"
+  - id: R05
+    title: "Degradation behaviour of HVOF sprayed CoNiCrAlY coating in high-temperature ammonia environment towards its applicability in ammonia fueled gas turbines"
+    authors: "Tina Ghara; Seiji Kuroda; Takashi Yanagisawa; Mohammed Shahien; Masato Suzuki; Takahiro Inoue; Kentaro Shinoda"
+    year: 2025
+    venue: "International Journal of Hydrogen Energy"
+    doi: "10.1016/j.ijhydene.2025.04.277"
+    url: "https://www.sciencedirect.com/science/article/abs/pii/S0360319925019573"
+    source_type: "primary"
+    used_for: ["coatings", "gas_turbine_context"]
+    confidence: "verified"
+  - id: R06
+    title: "Aluminization and pre-oxidation treatments for enhanced nitridation resistance of reformer alloys under high-pressure ammonia cracking"
+    authors: "Nicole Laws; Estefany Sarabia; William L. Roberts; Felipe Campuzano"
+    year: 2026
+    venue: "Materials Chemistry and Physics"
+    doi: "10.1016/j.matchemphys.2026.132426"
+    url: "https://www.sciencedirect.com/science/article/pii/S0254058426004189"
+    source_type: "primary"
+    used_for: ["mitigation", "alumina_barrier"]
+    confidence: "verified"
+  - id: R07
+    title: "Study on the temperature- and position-dependent corrosion behaviour of 310S stainless steel in high-temperature ammonia decomposition reactors"
+    authors: "Jiaqing Li; Liqian Zheng; Lei Hu; Lin Teng; Shihang Rao; Che Zhang; Yu Luo; Lilong Jiang"
+    year: 2026
+    venue: "Chemical Engineering Science"
+    doi: "10.1016/j.ces.2026.124309"
+    url: "https://www.sciencedirect.com/science/article/abs/pii/S0009250926010249"
+    source_type: "primary"
+    used_for: ["reactor_gradient", "temperature_dependence"]
+    confidence: "verified"

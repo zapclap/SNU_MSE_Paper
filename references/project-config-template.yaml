@@ -1,0 +1,150 @@
+# Copy this file into the thesis project folder and fill it in for each project.
+
+project:
+  name: ""
+  project_dir: ""
+  output_dir: ""
+  latest_source_docx: ""
+  version_pattern: "Ver{n}"
+  make_pdf_for_every_version: true
+
+institution:
+  official_rules_file: ""
+  school_name: "서울대학교 대학원"
+  degree_name: ""  # e.g. "석사학위논문", "박사학위논문", or the exact official degree label
+  department: ""
+  major: ""
+  author: ""
+  student_id: ""
+  advisor: ""
+  committee:
+    chair: ""
+    vice_chair: ""
+    member: ""
+  submission_month: ""
+  approval_month: ""
+  korean_title: ""
+  english_title: ""
+
+front_matter:
+  locked_layout_template: "assets/snu-materials-frontmatter-template.docx"
+  fields_file: "frontmatter-fields.json"
+  preserve_layout: true
+  replace_only_metadata_slots: true
+  title_line_policy:
+    korean_title_lines: 4
+    english_title_lines: 2
+    keep_manual_line_breaks: true
+  variable_slots:
+    - DEGREE_NAME
+    - KOREAN_TITLE_LINE_1
+    - KOREAN_TITLE_LINE_2
+    - KOREAN_TITLE_LINE_3
+    - KOREAN_TITLE_LINE_4
+    - ENGLISH_TITLE_LINE_1
+    - ENGLISH_TITLE_LINE_2
+    - DEGREE_AWARD_MONTH
+    - SCHOOL_NAME
+    - DEPARTMENT
+    - ADVISOR_DISPLAY
+    - SUBMISSION_DEGREE_NAME
+    - SUBMISSION_MONTH
+    - AUTHOR_DISPLAY
+    - AUTHOR_NAME_COMPACT
+    - APPROVAL_DEGREE_NAME
+    - APPROVAL_MONTH
+    - COMMITTEE_CHAIR_DISPLAY
+    - COMMITTEE_VICE_CHAIR_DISPLAY
+    - COMMITTEE_MEMBER_DISPLAY
+
+format:
+  page_size_cm: [19, 26]
+  margins_mm:
+    top: 20
+    bottom: 15
+    left: 30
+    right: 30
+    header: 15
+    footer: 15
+  fonts:
+    korean: "Batang"
+    latin: "Times New Roman"
+  body_pt: 11
+  chapter_title_pt: 16
+  section_title_pt: 14
+  line_spacing_percent_min: 170
+  page_number_position: "bottom-center"
+  visual_item_pages:
+    isolated_pages: true
+    allowed_content: ["figure_or_table", "caption"]
+    default_items_per_page: 1
+    max_items_per_page_when_small: 2
+    never_split_across_pages: true
+    never_clip_or_crop: true
+    center_single_item_group: true
+    center_two_item_group: true
+    two_item_gap_min_pt: 12
+    pdf_center_tolerance_ratio: 0.08
+    pdf_edge_margin_min_ratio: 0.02
+
+terminology:
+  # Fill this per thesis. Keep empty when no fixed terminology is needed.
+  # Example:
+  # preferred:
+  #   "source term": "preferred term"
+  preferred: {}
+  locked_phrases: []
+  avoid_or_replace: {}
+
+domain_rules:
+  direct_observation_terms: ["관찰되었다", "확인되었다"]
+  calculation_terms: ["계산되었다", "예측되었다"]
+  interpretation_terms: ["해석된다", "가능성이 있다", "시사한다"]
+  do_not_invent:
+    - "research data"
+    - "measurements"
+    - "quotations"
+    - "names"
+    - "dates"
+    - "case details"
+    - "method details"
+    - "references"
+    - "DOIs"
+  project_specific: []
+
+locked_layout:
+  do_not_touch:
+    - "intentionally rotated figures"
+    - "user-arranged image layouts unless requested"
+  locked_figures: []
+  locked_tables: []
+  locked_sections: []
+
+rendering:
+  pdf_export_engine: "microsoft_word"
+  pdf_export_command: "scripts/thesis_tool.py render-pdf <docx> --out <pdf>"
+  disallowed_final_pdf_engines:
+    - "LibreOffice"
+    - "Pandoc"
+    - "Preview"
+    - "generic DOCX renderer"
+  fallback_pdf_page_renderer: ""
+  inspect_pages:
+    - "table of contents"
+    - "list of tables"
+    - "list of figures"
+    - "changed figures/tables"
+  visual_page_qa_command: "scripts/visual_page_qa.py <rendered-page-images>"
+
+final_checks:
+  - "DOCX exists"
+  - "PDF exists"
+  - "PDF page count checked"
+  - "TOC page numbers match rendered PDF"
+  - "List of tables page numbers match rendered PDF"
+  - "List of figures page numbers match rendered PDF"
+  - "Figure/Table body references match captions"
+  - "Figure/Table pages contain only item(s) and caption(s)"
+  - "Figure/Table pages are centered in the rendered PDF"
+  - "No figure/table is clipped, cropped, split, or continued across pages"
+  - "No accidental changes to locked figures/layouts"

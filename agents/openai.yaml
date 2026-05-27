@@ -1,0 +1,7 @@
+interface:
+  display_name: "SNU Thesis Production"
+  short_description: "SNU thesis and review-paper DOCX/PDF pipeline"
+  default_prompt: "Use $snu-thesis-production to produce or revise my SNU thesis or review paper inside an isolated project folder as a versioned DOCX/PDF with evidence tracking, render-based QA, and synchronized figure, table, and TOC page numbers."
+
+policy:
+  allow_implicit_invocation: true

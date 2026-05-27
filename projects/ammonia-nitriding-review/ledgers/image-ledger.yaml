@@ -1,0 +1,67 @@
+date_created: "2026-05-27"
+image_mode: "source_figures_with_references"
+policy_note: >
+  Imported figures are tracked with source, figure number, URL, and license/permission status.
+  For unclear or non-open figures, redraw as original schematics or mark permission as needed.
+
+imported_images:
+  - local_path: "/Users/mac/Downloads/snu-thesis-production-skill/output/source_figures/jeong_yeom_2026_fig1.png"
+    original_figure: "Fig. 1"
+    source_ref: "R01"
+    article_url: "https://link.springer.com/article/10.1007/s11814-026-00706-2"
+    image_url: "https://media.springernature.com/lw1200/springer-static/image/art%3A10.1007%2Fs11814-026-00706-2/MediaObjects/11814_2026_706_Fig1_HTML.png"
+    license: "CC BY-NC-ND 4.0"
+    caption_credit: "출처: Jeong and Yeom [1], Fig. 1, CC BY-NC-ND 4.0."
+    needs_permission: false
+  - local_path: "/Users/mac/Downloads/snu-thesis-production-skill/output/source_figures/jeong_yeom_2026_fig2.png"
+    original_figure: "Fig. 2"
+    source_ref: "R01"
+    article_url: "https://link.springer.com/article/10.1007/s11814-026-00706-2"
+    image_url: "https://media.springernature.com/lw1200/springer-static/image/art%3A10.1007%2Fs11814-026-00706-2/MediaObjects/11814_2026_706_Fig2_HTML.png"
+    license: "CC BY-NC-ND 4.0"
+    caption_credit: "출처: Jeong and Yeom [1], Fig. 2, CC BY-NC-ND 4.0."
+    needs_permission: false
+  - local_path: "/Users/mac/Downloads/snu-thesis-production-skill/output/source_figures/jeong_yeom_2026_fig4.png"
+    original_figure: "Fig. 4"
+    source_ref: "R01"
+    article_url: "https://link.springer.com/article/10.1007/s11814-026-00706-2"
+    image_url: "https://media.springernature.com/lw1200/springer-static/image/art%3A10.1007%2Fs11814-026-00706-2/MediaObjects/11814_2026_706_Fig4_HTML.png"
+    license: "CC BY-NC-ND 4.0"
+    caption_credit: "출처: Jeong and Yeom [1], Fig. 4, CC BY-NC-ND 4.0."
+    needs_permission: false
+  - local_path: "/Users/mac/Downloads/snu-thesis-production-skill/output/source_figures/jeong_yeom_2026_fig6.png"
+    original_figure: "Fig. 6"
+    source_ref: "R01"
+    article_url: "https://link.springer.com/article/10.1007/s11814-026-00706-2"
+    image_url: "https://media.springernature.com/lw1200/springer-static/image/art%3A10.1007%2Fs11814-026-00706-2/MediaObjects/11814_2026_706_Fig6_HTML.png"
+    license: "CC BY-NC-ND 4.0"
+    caption_credit: "출처: Jeong and Yeom [1], Fig. 6, CC BY-NC-ND 4.0."
+    needs_permission: false
+  - local_path: "/Users/mac/Downloads/snu-thesis-production-skill/output/source_figures/jeong_yeom_2026_fig10.png"
+    original_figure: "Fig. 10"
+    source_ref: "R01"
+    article_url: "https://link.springer.com/article/10.1007/s11814-026-00706-2"
+    image_url: "https://media.springernature.com/lw1200/springer-static/image/art%3A10.1007%2Fs11814-026-00706-2/MediaObjects/11814_2026_706_Fig10_HTML.png"
+    license: "CC BY-NC-ND 4.0"
+    caption_credit: "출처: Jeong and Yeom [1], Fig. 10, CC BY-NC-ND 4.0."
+    needs_permission: false
+  - local_path: "/Users/mac/Downloads/snu-thesis-production-skill/output/source_figures/jeong_yeom_2026_fig14.png"
+    original_figure: "Fig. 14"
+    source_ref: "R01"
+    article_url: "https://link.springer.com/article/10.1007/s11814-026-00706-2"
+    image_url: "https://media.springernature.com/lw1200/springer-static/image/art%3A10.1007%2Fs11814-026-00706-2/MediaObjects/11814_2026_706_Fig14_HTML.png"
+    license: "CC BY-NC-ND 4.0"
+    caption_credit: "출처: Jeong and Yeom [1], Fig. 14, CC BY-NC-ND 4.0."
+    needs_permission: false
+
+generated_images:
+  - "/Users/mac/Downloads/snu-thesis-production-skill/output/figures/research_landscape.png"
+  - "/Users/mac/Downloads/snu-thesis-production-skill/output/figures/nh3_reaction_pathway.png"
+  - "/Users/mac/Downloads/snu-thesis-production-skill/output/figures/nitriding_potential_map.png"
+  - "/Users/mac/Downloads/snu-thesis-production-skill/output/figures/reactor_gradient.png"
+  - "/Users/mac/Downloads/snu-thesis-production-skill/output/figures/flame_wall.png"
+  - "/Users/mac/Downloads/snu-thesis-production-skill/output/figures/alloy_response_matrix.png"
+  - "/Users/mac/Downloads/snu-thesis-production-skill/output/figures/alumina_barrier.png"
+  - "/Users/mac/Downloads/snu-thesis-production-skill/output/figures/data_workflow.png"
+  - "/Users/mac/Downloads/snu-thesis-production-skill/output/figures/roadmap.png"
+  - "/Users/mac/Downloads/snu-thesis-production-skill/output/figures/synthesis_loop.png"

@@ -1,0 +1,118 @@
+# Copy into a review-thesis project and fill/update as the workflow runs.
+
+review_project:
+  name: ""
+  topic_request: ""
+  selected_topic: ""
+  topic_rationale: ""
+  target_pages: 50
+  language: "ko"
+  citation_style: "numeric"
+  image_mode: "source_figures_with_references" # generated_schematics | source_figures_with_references | mixed
+  placeholder_draft_approved: false
+
+metadata:
+  author: ""
+  korean_title: ""
+  english_title: ""
+  degree_name: ""
+  school_name: "서울대학교 대학원"
+  department: ""
+  major: ""
+  advisor: ""
+  submission_month: ""
+  approval_month: ""
+  acknowledgements: false
+  committee:
+    chair: ""
+    vice_chair: ""
+    members: []
+
+preflight:
+  required_before_generation:
+    - "metadata.author"
+    - "metadata.korean_title"
+    - "metadata.english_title"
+    - "metadata.degree_name"
+    - "metadata.department"
+    - "metadata.major"
+    - "metadata.advisor"
+    - "metadata.submission_month"
+    - "metadata.approval_month"
+    - "metadata.committee.chair"
+    - "metadata.committee.vice_chair"
+    - "metadata.committee.members"
+  unresolved_questions: []
+
+layout_rules:
+  front_matter:
+    page_1: "cover"
+    page_2: "approval"
+    page_3: "korean_abstract"
+    omit_separate_submission_page: true
+    omit_acknowledgements_by_default: true
+  typography:
+    korean_font: "Batang"
+    english_font: "Times New Roman"
+    font_color: "000000"
+    allow_colored_text: false
+  figures_and_tables:
+    isolated_pages: true
+    allowed_content_on_item_page: ["figure_or_table", "caption"]
+    default_items_per_page: 1
+    max_items_per_page_when_small: 2
+    never_split_across_pages: true
+    never_clip_or_crop: true
+    center_single_item_group: true
+    center_two_item_group: true
+    two_item_gap_min_pt: 12
+    pdf_center_tolerance_ratio: 0.08
+    pdf_edge_margin_min_ratio: 0.02
+
+paths:
+  # Filled by scripts/init_review_project.py for each project.
+  project_dir: ""
+  docx_dir: ""
+  pdf_dir: ""
+  figures_dir: ""
+  source_figures_dir: ""
+  qa_dir: ""
+  page_maps_dir: ""
+
+source_search:
+  date_performed: ""
+  search_queries: []
+  inclusion_rules:
+    - "recent review or primary source"
+    - "publisher/DOI/official report metadata available"
+    - "directly supports review thesis argument"
+  exclusion_rules:
+    - "unverifiable bibliographic metadata"
+    - "marketing-only pages unless used for deployment context"
+    - "uncited or unlicensed source figures"
+
+evidence_ledger: []
+
+image_ledger: []
+
+outline:
+  thesis_argument: ""
+  chapters: []
+  planned_tables: []
+  planned_figures: []
+
+page_control:
+  target_pages: 50
+  current_pdf_pages: null
+  expansion_pool:
+    - "literature synthesis appendix"
+    - "comparison tables"
+    - "mechanism subsections"
+  compression_pool:
+    - "repeated background paragraphs"
+    - "oversized figures"
+    - "long source-by-source notes"
+
+revision_learning:
+  reusable_workflow_updates: []
+  project_only_updates: []

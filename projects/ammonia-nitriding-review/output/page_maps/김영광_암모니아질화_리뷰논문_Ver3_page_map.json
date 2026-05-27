@@ -1,0 +1,214 @@
+{
+  "pdf": "/Users/mac/Downloads/snu-thesis-production-skill/output/김영광_암모니아질화_리뷰논문_Ver3.pdf",
+  "page_count": 50,
+  "figures": {
+    "1": {
+      "physical_page": 12,
+      "printed_page": 12
+    },
+    "2": {
+      "physical_page": 13,
+      "printed_page": 13
+    },
+    "11": {
+      "physical_page": 14,
+      "printed_page": 14
+    },
+    "12": {
+      "physical_page": 15,
+      "printed_page": 15
+    },
+    "3": {
+      "physical_page": 16,
+      "printed_page": 16
+    },
+    "13": {
+      "physical_page": 17,
+      "printed_page": 17
+    },
+    "14": {
+      "physical_page": 18,
+      "printed_page": 18
+    },
+    "4": {
+      "physical_page": 20,
+      "printed_page": 20
+    },
+    "5": {
+      "physical_page": 24,
+      "printed_page": 24
+    },
+    "15": {
+      "physical_page": 24,
+      "printed_page": 24
+    },
+    "6": {
+      "physical_page": 26,
+      "printed_page": 26
+    },
+    "7": {
+      "physical_page": 32,
+      "printed_page": 32
+    },
+    "8": {
+      "physical_page": 33,
+      "printed_page": 33
+    },
+    "16": {
+      "physical_page": 35,
+      "printed_page": 35
+    },
+    "9": {
+      "physical_page": 38,
+      "printed_page": 38
+    },
+    "10": {
+      "physical_page": 44,
+      "printed_page": 44
+    }
+  },
+  "tables": {
+    "1": {
+      "physical_page": 11,
+      "printed_page": 11
+    },
+    "4": {
+      "physical_page": 19,
+      "printed_page": 19
+    },
+    "2": {
+      "physical_page": 28,
+      "printed_page": 28
+    },
+    "3": {
+      "physical_page": 34,
+      "printed_page": 34
+    },
+    "5": {
+      "physical_page": 36,
+      "printed_page": 36
+    },
+    "6": {
+      "physical_page": 40,
+      "printed_page": 40
+    }
+  },
+  "headings": {
+    "1. 서론": {
+      "physical_page": 9,
+      "printed_page": 9
+    },
+    "1. 본": {
+      "physical_page": 11,
+      "printed_page": 11
+    },
+    "1. 암모": {
+      "physical_page": 12,
+      "printed_page": 12
+    },
+    "2. 암모": {
+      "physical_page": 13,
+      "printed_page": 13
+    },
+    "1. NH": {
+      "physical_page": 14,
+      "printed_page": 14
+    },
+    "2. 금속": {
+      "physical_page": 15,
+      "printed_page": 15
+    },
+    "4.0. N": {
+      "physical_page": 15,
+      "printed_page": 15
+    },
+    "3. 온도": {
+      "physical_page": 16,
+      "printed_page": 16
+    },
+    "3. 대표": {
+      "physical_page": 17,
+      "printed_page": 17
+    },
+    "4. Fe": {
+      "physical_page": 18,
+      "printed_page": 18
+    },
+    "4.0. 질": {
+      "physical_page": 18,
+      "printed_page": 18
+    },
+    "3. 제어": {
+      "physical_page": 19,
+      "printed_page": 19
+    },
+    "4. 제어": {
+      "physical_page": 19,
+      "printed_page": 19
+    },
+    "4. 암모": {
+      "physical_page": 20,
+      "printed_page": 20
+    },
+    "5. 암모": {
+      "physical_page": 24,
+      "printed_page": 24
+    },
+    "5. 질화": {
+      "physical_page": 24,
+      "printed_page": 24
+    },
+    "5. 합금": {
+      "physical_page": 29,
+      "printed_page": 29
+    },
+    "3. 합금": {
+      "physical_page": 34,
+      "printed_page": 34
+    },
+    "4.0. 합": {
+      "physical_page": 35,
+      "printed_page": 35
+    },
+    "5. 진단": {
+      "physical_page": 36,
+      "printed_page": 36
+    },
+    "4. ht": {
+      "physical_page": 46,
+      "printed_page": 46
+    },
+    "1. ht": {
+      "physical_page": 46,
+      "printed_page": 46
+    },
+    "5. ht": {
+      "physical_page": 46,
+      "printed_page": 46
+    },
+    "4. IE": {
+      "physical_page": 46,
+      "printed_page": 46
+    },
+    "5. [1": {
+      "physical_page": 47,
+      "printed_page": 47
+    },
+    "5. [2": {
+      "physical_page": 47,
+      "printed_page": 47
+    },
+    "4. [확": {
+      "physical_page": 47,
+      "printed_page": 47
+    },
+    "5. [확": {
+      "physical_page": 47,
+      "printed_page": 47
+    },
+    "1. [확": {
+      "physical_page": 47,
+      "printed_page": 47
+    }
+  }
+}

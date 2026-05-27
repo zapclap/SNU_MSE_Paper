@@ -1,0 +1,51 @@
+# Optional baseline profile for SNU materials science/engineering theses.
+# Copy relevant entries into the project config and delete entries that do not apply.
+# Project-specific terminology and advisor preferences always override this file.
+
+domain_profile: "materials-science-and-engineering"
+
+terminology:
+  preferred:
+    microstructure: "미세조직"
+    matrix: "기지"
+    phase: "상"
+    precipitate: "석출물"
+    carbide: "탄화물"
+    grain: "결정립"
+    grain boundary: "결정립계"
+    subgrain boundary: "아결정립계"
+    heat treatment: "열처리"
+    annealing: "어닐링"
+    quenching: "급랭"
+    austenitizing: "오스테나이트화 가열"
+    ferrite: "페라이트"
+    martensite: "마르텐사이트"
+    austenite: "오스테나이트"
+    scanning electron microscopy: "scanning electron microscopy(SEM), 이후 SEM"
+    transmission electron microscopy: "transmission electron microscopy(TEM), 이후 TEM"
+    electron backscatter diffraction: "electron backscatter diffraction(EBSD), 이후 EBSD"
+    energy-dispersive spectroscopy: "energy-dispersive spectroscopy(EDS), 이후 EDS"
+    high-angle annular dark-field: "high-angle annular dark-field(HAADF), 이후 HAADF"
+    selected-area electron diffraction: "selected-area electron diffraction(SAED), 이후 SAED"
+    kernel average misorientation: "kernel average misorientation(KAM), 이후 KAM"
+    equivalent circle diameter: "equivalent circle diameter(ECD), 이후 ECD"
+    prior austenite grain: "prior austenite grain(PAG), 이후 PAG"
+  avoid_or_replace: {}
+
+evidence_rules:
+  microscopy:
+    - "SEM/TEM/EBSD/EDS 결과는 직접 관찰 또는 분석 결과로 서술하되, 관찰 범위와 대표성의 한계를 과장하지 않는다."
+    - "EDS mapping은 정성 또는 반정량 근거인지 명확히 구분한다."
+    - "시편 준비법이 서로 다른 결과를 비교할 때 절대 정량 비교인지 상대 경향 비교인지 명시한다."
+  calculations:
+    - "Thermodynamic/kinetic simulations and empirical calculations must be labeled as calculated, simulated, predicted, or model-based."
+    - "계산값은 실험 측정값처럼 쓰지 않는다."
+    - "입력 조성, 고려 상, 핵생성 site, boundary condition, temperature/time path, assumptions, and interpretation limits should be stated when relevant."
+  mechanical_properties:
+    - "Yield strength, tensile strength, elongation, hardness, and toughness values must come from supplied data only."
+    - "Strengthening mechanisms should be separated into observation, calculation, and interpretation."
+
+figure_caption_rules:
+  - "Microscopy captions should include material/sample condition, process/heat-treatment condition, method, and what the panel shows."
+  - "Captions should not repeat extended mechanistic interpretation already explained in the body."
+  - "Simulation/calculation figures should include words such as calculated, simulated, predicted, model-based, or 기반 계산 결과."

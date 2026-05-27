@@ -1,0 +1,100 @@
+project:
+  name: "김영광_암모니아질화_리뷰논문"
+  output_dir: "/Users/mac/Downloads/snu-thesis-production-skill/output"
+  latest_source_docx: ""
+  version_pattern: "Ver{n}"
+  make_pdf_for_every_version: true
+
+review_project:
+  workflow_reference: "/Users/mac/Downloads/snu-thesis-production-skill/references/review-paper-workflow.md"
+  review_config: "/Users/mac/Downloads/snu-thesis-production-skill/review-config.yaml"
+  topic_request: "현재 암모니아 질화와 관련되어 가장 핫한 주제를 찾아서 리뷰 논문 작성"
+  selected_topic: "암모니아 에너지 시스템에서의 원치 않는 질화 및 질화부식"
+  topic_rationale: "2024-2026년 문헌에서 암모니아 크래킹, 암모니아 연소, 가스터빈, 선박엔진, 저장·수송 인프라의 재료 신뢰성 문제가 집중적으로 증가하고 있음."
+  target_pages: 50
+  language: "ko"
+  citation_style: "numeric"
+  image_mode: "source_figures_with_references"
+  revision_learning:
+    - "사용자가 원문 이미지 사용과 레퍼런스 명시를 선호함. 다음 리뷰논문 워크플로우에서는 imported image ledger를 먼저 만든다."
+    - "사용자가 [확인 필요] placeholder를 싫어함. 다음부터는 preflight로 필요한 메타데이터를 먼저 질문하고, 답변 후 원고를 생성한다."
+    - "리뷰논문 front matter는 1쪽 표지, 2쪽 인준지, 3쪽 국문초록으로 고정한다."
+    - "한글은 바탕체, 영어/라틴은 Times New Roman, 문서 글씨색은 검정으로 고정한다."
+    - "그림/표 페이지에는 본문 텍스트를 넣지 않고 그림/표와 캡션만 둔다. 기본 1개, 작고 관련된 경우 최대 2개."
+    - "감사의 글은 기본적으로 제외한다."
+  layout_rules:
+    front_matter_order: ["cover", "approval", "korean_abstract", "toc", "list_of_tables", "list_of_figures", "body", "references", "appendix", "english_abstract"]
+    approval_page_must_end_on_page: 2
+    omit_acknowledgements: true
+    figure_table_isolated_pages: true
+    max_items_per_figure_table_page: 2
+    font_color: "000000"
+
+institution:
+  official_rules_file: "/Users/mac/Downloads/snu-thesis-production-skill/references/snu-thesis-rules.md"
+  school_name: "서울대학교 대학원"
+  degree_name: ""
+  department: ""
+  major: ""
+  author: "김영광"
+  student_id: ""
+  advisor: ""
+  committee:
+    chair: "이명규"
+    vice_chair: "한흥남"
+    member: "외부심사위원 김동익"
+  submission_month: ""
+  approval_month: ""
+  korean_title: "암모니아 에너지 시스템에서의 원치 않는 질화 및 질화부식: 기구, 합금 의존성, 억제 전략에 관한 리뷰"
+  english_title: "Unwanted Nitriding and Nitridation Corrosion in Ammonia Energy Systems: Mechanisms, Alloy Dependence, and Mitigation Strategies"
+
+format:
+  page_size_cm: [19, 26]
+  margins_mm:
+    top: 20
+    bottom: 15
+    left: 30
+    right: 30
+    header: 15
+    footer: 15
+  fonts:
+    korean: "Batang"
+    latin: "Times New Roman"
+  body_pt: 10.5
+  chapter_title_pt: 16
+  section_title_pt: 13
+  line_spacing_percent_min: 165
+  page_number_position: "bottom-center"
+
+terminology:
+  preferred:
+    "nitridation corrosion": "질화부식"
+    "unwanted nitriding": "원치 않는 질화"
+    "ammonia cracking": "암모니아 크래킹"
+    "nitriding potential": "질화 포텐셜"
+  locked_phrases:
+    - "원치 않는 질화"
+    - "암모니아 에너지 시스템"
+    - "질화부식"
+  avoid_or_replace: {}
+
+domain_rules:
+  direct_observation_terms: ["보고되었다", "관찰되었다", "확인되었다"]
+  calculation_terms: ["계산되었다", "예측되었다"]
+  interpretation_terms: ["시사한다", "해석된다", "가능성이 있다"]
+  do_not_invent:
+    - "unverified bibliographic metadata"
+    - "experimental measurements not in cited sources"
+    - "committee metadata not supplied by the user"
+  project_specific:
+    - "The document is a review manuscript, not a report of original experiments."
+    - "Figures are original schematic/summary figures generated for this review unless explicitly marked otherwise."
+
+rendering:
+  pdf_export_engine: "microsoft_word"
+  pdf_export_command: "scripts/thesis_tool.py render-pdf <docx> --out <pdf>"
+  inspect_pages:
+    - "front matter"
+    - "table of contents"
+    - "body pages with figures"
+    - "reference pages"
