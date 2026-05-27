@@ -59,10 +59,12 @@ layout_rules:
   typography:
     korean_font: "Batang"
     english_font: "Times New Roman"
+    body_font_size_pt: 11
     generated_figure_korean_font: "Batang"
     generated_figure_english_font: "Times New Roman"
     font_color: "000000"
     allow_colored_text: false
+    remove_word_theme_font_inheritance: true
     fail_if_required_font_missing: true
     font_audit_command: "scripts/docx_font_audit.py <docx>"
   figures_and_tables:

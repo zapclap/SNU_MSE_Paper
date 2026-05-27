@@ -161,7 +161,9 @@ Avoid a pure annotated bibliography. Every cited source should support a synthes
 - Missing user/project metadata must be collected through preflight questions before generation. Do not leave `[확인 필요]` in the final manuscript unless the user explicitly approves a placeholder draft.
 - Preserve exact user-provided names and committee roles.
 - Keep imported figure credits in captions and references.
+- Use 11 pt as the default body text size unless the user explicitly asks otherwise.
 - Use only black font color in the document. No colored headings, colored table text, or colored emphasis.
+- Remove Word theme-font inheritance and rewrite the DOCX theme font scheme itself so Calibri/Cambria do not appear through major/minor font slots.
 - Use Batang for all Korean text and Times New Roman for all English/Latin text.
 - Generated raster figures must also follow the typography rule for visible labels. If Batang or Times New Roman font files cannot be found locally, ask for the font path before building the final manuscript.
 - Omit acknowledgements unless the user asks to include them.

@@ -21,7 +21,7 @@ If the user is new, opened this downloaded folder as a Codex project, or does no
 6. Preserve the front-matter layout template. For the cover/title/approval pages, change only metadata slots such as title, author, advisor, committee, department, degree label, and dates.
 7. Export the DOCX to PDF through Microsoft Word, inspect page images, then fix and re-export until the requested area is clean.
 8. After figure/table moves, synchronize body references, captions, lists of figures/tables, and PDF page numbers.
-9. Use Batang for all Korean text, Times New Roman for all English/Latin text, and black font color throughout the document unless the user explicitly requests a different style.
+9. Use Batang for all Korean text, Times New Roman for all English/Latin text, 11 pt default body text, and black font color throughout the document unless the user explicitly requests a different style. Remove Word theme-font inheritance and set the DOCX theme font scheme itself to Batang/Times so Calibri/Cambria cannot surface through heading styles, patched front matter, or future edits.
 10. Keep project-specific artifacts isolated: each thesis/review project gets its own folder containing its configs, ledgers, generated scripts, source images, QA images, DOCX/PDF versions, and page maps.
 11. When the user asks to keep this workflow synchronized with GitHub, use `references/github-sync-workflow.md` and `scripts/github_sync.py`. If remote URL, git identity, or credentials are missing, prepare the local repo and ask for only the missing values instead of guessing.
 12. For every figure/table page, follow `references/visual-item-layout-policy.md`: no clipping, no page break continuation, no body text, centered layout in the rendered PDF.
@@ -104,7 +104,7 @@ When the task is a review paper:
    - Re-export the PDF through Microsoft Word after patching.
 
 7. **Typography And Blank-Page Audit**
-   - Run `scripts/docx_font_audit.py <docx>` before final delivery. Fix any non-Batang East Asian font slot, non-Times Latin font slot, or nonblack explicit text color.
+   - Run `scripts/docx_font_audit.py <docx>` before final delivery. Fix any non-Batang East Asian font slot, non-Times Latin font slot, non-Batang/Times DOCX theme font scheme, or nonblack explicit text color.
    - Render every Word-exported PDF page to PNGs, then run `scripts/pdf_blank_page_audit.py <pdf> --rendered-dir <all-page-png-dir>`.
    - If a blank page is detected, fix the page break, section break, front-matter spacing, or visual-page sizing that caused it, then re-export and rerun the audit.
 

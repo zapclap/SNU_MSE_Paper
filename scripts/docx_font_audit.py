@@ -17,7 +17,8 @@ from xml.etree import ElementTree as ET
 
 
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
-NS = {"w": W_NS}
+A_NS = "http://schemas.openxmlformats.org/drawingml/2006/main"
+NS = {"w": W_NS, "a": A_NS}
 
 
 def wq(name: str) -> str:
@@ -29,6 +30,17 @@ EXPECTED_FONTS = {
     "hAnsi": "Times New Roman",
     "cs": "Times New Roman",
     "eastAsia": "Batang",
+}
+THEME_FONT_ATTRS = ("asciiTheme", "hAnsiTheme", "cstheme", "eastAsiaTheme")
+EXPECTED_THEME_FONTS = {
+    "majorFont.latin": "Times New Roman",
+    "majorFont.ea": "Batang",
+    "majorFont.cs": "Times New Roman",
+    "majorFont.Hang": "Batang",
+    "minorFont.latin": "Times New Roman",
+    "minorFont.ea": "Batang",
+    "minorFont.cs": "Times New Roman",
+    "minorFont.Hang": "Batang",
 }
 
 CONTENT_PREFIXES = (
@@ -75,6 +87,28 @@ def check_font_slots(values: dict[str, str | None], location: str, violations: l
                     "actual": actual,
                 }
             )
+
+
+def check_theme_font_attrs(r_fonts: ET.Element | None, location: str, violations: list[dict]) -> None:
+    if r_fonts is None:
+        return
+    for attr in THEME_FONT_ATTRS:
+        actual = r_fonts.get(wq(attr))
+        if actual is not None:
+            violations.append(
+                {
+                    "type": "font-theme",
+                    "location": location,
+                    "slot": attr,
+                    "expected": "absent",
+                    "actual": actual,
+                }
+            )
+
+
+def check_rfonts(r_fonts: ET.Element | None, location: str, violations: list[dict]) -> None:
+    check_font_slots(rfont_values(r_fonts), location, violations)
+    check_theme_font_attrs(r_fonts, location, violations)
 
 
 def check_color(color: ET.Element | None, location: str, violations: list[dict]) -> None:
@@ -127,9 +161,8 @@ def check_doc_defaults(styles_root: ET.Element | None, violations: list[dict]) -
             }
         )
         return
-    values = rfont_values(r_fonts)
     for slot, expected in EXPECTED_FONTS.items():
-        actual = values.get(slot)
+        actual = r_fonts.get(wq(slot))
         if actual != expected:
             violations.append(
                 {
@@ -138,6 +171,44 @@ def check_doc_defaults(styles_root: ET.Element | None, violations: list[dict]) -
                     "slot": slot,
                     "expected": expected,
                     "actual": actual,
+                }
+            )
+    check_theme_font_attrs(r_fonts, "word/styles.xml docDefaults", violations)
+
+
+def check_theme_scheme(theme_root: ET.Element | None, violations: list[dict]) -> None:
+    if theme_root is None:
+        return
+    for family in ("majorFont", "minorFont"):
+        family_root = theme_root.find(f".//a:{family}", NS)
+        if family_root is None:
+            continue
+        for slot, tag in (("latin", "latin"), ("ea", "ea"), ("cs", "cs")):
+            expected = EXPECTED_THEME_FONTS[f"{family}.{slot}"]
+            node = family_root.find(f"./a:{tag}", NS)
+            actual = node.get("typeface") if node is not None else None
+            if actual != expected:
+                violations.append(
+                    {
+                        "type": "font-theme-scheme",
+                        "location": f"word/theme/theme1.xml {family}.{slot}",
+                        "expected": expected,
+                        "actual": actual,
+                    }
+                )
+        expected_hang = EXPECTED_THEME_FONTS[f"{family}.Hang"]
+        hang_font = None
+        for node in family_root.findall("./a:font", NS):
+            if node.get("script") == "Hang":
+                hang_font = node.get("typeface")
+                break
+        if hang_font != expected_hang:
+            violations.append(
+                {
+                    "type": "font-theme-scheme",
+                    "location": f"word/theme/theme1.xml {family}.Hang",
+                    "expected": expected_hang,
+                    "actual": hang_font,
                 }
             )
 
@@ -150,7 +221,7 @@ def check_used_styles(styles_root: ET.Element | None, used_styles: set[str], vio
             continue
         location = f"word/styles.xml style:{style_id}"
         r_fonts = style.find("./w:rPr/w:rFonts", NS)
-        check_font_slots(rfont_values(r_fonts), location, violations)
+        check_rfonts(r_fonts, location, violations)
         check_color(style.find("./w:rPr/w:color", NS), location, violations)
 
 
@@ -164,7 +235,9 @@ def run_audit(docx_path: Path) -> dict:
                 roots.append((name, root))
 
         styles_root = parse_xml(zf, "word/styles.xml")
+        theme_root = parse_xml(zf, "word/theme/theme1.xml")
         check_doc_defaults(styles_root, violations)
+        check_theme_scheme(theme_root, violations)
         check_used_styles(styles_root, collect_used_styles([root for _, root in roots]), violations)
 
         for part_name, root in roots:
@@ -176,12 +249,13 @@ def run_audit(docx_path: Path) -> dict:
                 r_pr = run.find("./w:rPr", NS)
                 if r_pr is None:
                     continue
-                check_font_slots(rfont_values(r_pr.find("./w:rFonts", NS)), location, violations)
+                check_rfonts(r_pr.find("./w:rFonts", NS), location, violations)
                 check_color(r_pr.find("./w:color", NS), location, violations)
 
     return {
         "docx": str(docx_path),
         "expected": EXPECTED_FONTS,
+        "expected_theme": EXPECTED_THEME_FONTS,
         "ok": not violations,
         "violations": violations,
     }

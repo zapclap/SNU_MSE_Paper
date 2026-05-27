@@ -28,6 +28,11 @@ except Exception as exc:  # pragma: no cover
 
 NS = {"w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main"}
 W = f"{{{NS['w']}}}"
+A_NS = "http://schemas.openxmlformats.org/drawingml/2006/main"
+A = f"{{{A_NS}}}"
+E_FONT = "Times New Roman"
+K_FONT = "Batang"
+THEME_FONT_ATTRS = ("asciiTheme", "hAnsiTheme", "cstheme", "eastAsiaTheme")
 
 
 def paragraph_text(p: etree._Element) -> str:
@@ -47,8 +52,68 @@ def clear_paragraph_content(p: etree._Element) -> None:
             p.remove(child)
 
 
+def force_run_font(r: etree._Element) -> None:
+    r_pr = etree.SubElement(r, f"{W}rPr")
+    r_fonts = etree.SubElement(r_pr, f"{W}rFonts")
+    r_fonts.set(f"{W}ascii", E_FONT)
+    r_fonts.set(f"{W}hAnsi", E_FONT)
+    r_fonts.set(f"{W}cs", E_FONT)
+    r_fonts.set(f"{W}eastAsia", K_FONT)
+    for attr in THEME_FONT_ATTRS:
+        r_fonts.attrib.pop(f"{W}{attr}", None)
+    color = etree.SubElement(r_pr, f"{W}color")
+    color.set(f"{W}val", "000000")
+
+
+def force_rfonts(r_fonts: etree._Element) -> None:
+    r_fonts.set(f"{W}ascii", E_FONT)
+    r_fonts.set(f"{W}hAnsi", E_FONT)
+    r_fonts.set(f"{W}cs", E_FONT)
+    r_fonts.set(f"{W}eastAsia", K_FONT)
+    for attr in THEME_FONT_ATTRS:
+        r_fonts.attrib.pop(f"{W}{attr}", None)
+
+
+def sanitize_word_package_fonts(package_root: Path) -> None:
+    styles_path = package_root / "word" / "styles.xml"
+    if styles_path.exists():
+        styles_root = etree.fromstring(styles_path.read_bytes())
+        for r_fonts in styles_root.xpath("//w:rFonts", namespaces=NS):
+            force_rfonts(r_fonts)
+        etree.ElementTree(styles_root).write(
+            str(styles_path),
+            xml_declaration=True,
+            encoding="UTF-8",
+            standalone="yes",
+        )
+
+    theme_path = package_root / "word" / "theme" / "theme1.xml"
+    if theme_path.exists():
+        theme_root = etree.fromstring(theme_path.read_bytes())
+        for font_scheme in theme_root.xpath("//a:majorFont|//a:minorFont", namespaces={"a": A_NS}):
+            latin = font_scheme.find(f"{A}latin")
+            if latin is not None:
+                latin.set("typeface", E_FONT)
+            east_asia = font_scheme.find(f"{A}ea")
+            if east_asia is not None:
+                east_asia.set("typeface", K_FONT)
+            complex_script = font_scheme.find(f"{A}cs")
+            if complex_script is not None:
+                complex_script.set("typeface", E_FONT)
+            for script_font in font_scheme.findall(f"{A}font"):
+                if script_font.get("script") == "Hang":
+                    script_font.set("typeface", K_FONT)
+        etree.ElementTree(theme_root).write(
+            str(theme_path),
+            xml_declaration=True,
+            encoding="UTF-8",
+            standalone="yes",
+        )
+
+
 def append_run(p: etree._Element, text: str) -> None:
     r = etree.SubElement(p, f"{W}r")
+    force_run_font(r)
     segments = text.split("\t")
     for i, segment in enumerate(segments):
         if segment:
@@ -81,6 +146,7 @@ def write_docx_from_xml(src_docx: Path, out_docx: Path, document_xml: etree._Ele
             encoding="UTF-8",
             standalone="yes",
         )
+        sanitize_word_package_fonts(tmp)
         if out_docx.exists():
             out_docx.unlink()
         with zipfile.ZipFile(out_docx, "w", compression=zipfile.ZIP_DEFLATED) as zf:
