@@ -8,19 +8,23 @@ from urllib.request import Request, urlopen
 
 from PIL import Image, ImageDraw, ImageFont
 from docx import Document
-from docx.enum.table import WD_ALIGN_VERTICAL, WD_TABLE_ALIGNMENT
+from docx.enum.table import WD_ALIGN_VERTICAL, WD_ROW_HEIGHT_RULE, WD_TABLE_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-from docx.shared import Cm, Pt
+from docx.shared import Cm, Pt, RGBColor
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "output"
+DOCX_DIR = OUT_DIR / "docx"
+PDF_DIR = OUT_DIR / "pdf"
 FIG_DIR = OUT_DIR / "figures"
 SOURCE_FIG_DIR = OUT_DIR / "source_figures"
 VERSION = os.environ.get("REVIEW_VERSION", "Ver1")
-DOCX_PATH = OUT_DIR / f"김영광_암모니아질화_리뷰논문_{VERSION}.docx"
+DOCX_PATH = DOCX_DIR / f"김영광_암모니아질화_리뷰논문_{VERSION}.docx"
+ADD_EXPANSION_PARAGRAPHS = os.environ.get("ADD_EXPANSION_PARAGRAPHS", "0") == "1"
+MAX_PARAGRAPHS_PER_SUBSECTION = int(os.environ.get("MAX_PARAGRAPHS_PER_SUBSECTION", "0"))
 
 K_FONT = "Batang"
 E_FONT = "Times New Roman"
@@ -367,6 +371,8 @@ SECTION_DATA = [
 
 def ensure_dirs() -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    DOCX_DIR.mkdir(parents=True, exist_ok=True)
+    PDF_DIR.mkdir(parents=True, exist_ok=True)
     FIG_DIR.mkdir(parents=True, exist_ok=True)
     SOURCE_FIG_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -636,6 +642,7 @@ def set_cell_text(cell, text: str, bold=False, shade: str | None = None) -> None
     run = p.add_run(text)
     apply_font(run, 8.6, bold=bold)
     cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+    set_paragraph_keep_together(p)
     tc_pr = cell._tc.get_or_add_tcPr()
     margins = OxmlElement("w:tcMar")
     for side in ("top", "left", "bottom", "right"):
@@ -655,6 +662,37 @@ def set_repeat_table_header(row) -> None:
     tbl_header = OxmlElement("w:tblHeader")
     tbl_header.set(qn("w:val"), "true")
     tr_pr.append(tbl_header)
+
+
+def set_row_cant_split(row) -> None:
+    tr_pr = row._tr.get_or_add_trPr()
+    if tr_pr.find(qn("w:cantSplit")) is None:
+        tr_pr.append(OxmlElement("w:cantSplit"))
+
+
+def set_row_height_at_least(row, height_cm: float) -> None:
+    row.height = Cm(height_cm)
+    row.height_rule = WD_ROW_HEIGHT_RULE.AT_LEAST
+
+
+def set_table_borders_none(table) -> None:
+    tbl_pr = table._tbl.tblPr
+    borders = tbl_pr.first_child_found_in("w:tblBorders")
+    if borders is not None:
+        tbl_pr.remove(borders)
+    borders = OxmlElement("w:tblBorders")
+    for edge in ("top", "left", "bottom", "right", "insideH", "insideV"):
+        node = OxmlElement(f"w:{edge}")
+        node.set(qn("w:val"), "nil")
+        borders.append(node)
+    tbl_pr.append(borders)
+
+
+def set_paragraph_keep_together(paragraph) -> None:
+    p_pr = paragraph._p.get_or_add_pPr()
+    for tag in ("w:keepLines", "w:keepNext"):
+        if p_pr.find(qn(tag)) is None:
+            p_pr.append(OxmlElement(tag))
 
 
 def add_page_number(paragraph) -> None:
@@ -677,6 +715,7 @@ def add_page_number(paragraph) -> None:
 def apply_font(run, size: float | None = None, bold: bool | None = None) -> None:
     """Use Batang for Korean glyphs and Times New Roman for Latin glyphs."""
     run.font.name = E_FONT
+    run.font.color.rgb = RGBColor(0, 0, 0)
     r_pr = run._element.get_or_add_rPr()
     r_fonts = r_pr.rFonts
     if r_fonts is None:
@@ -694,6 +733,7 @@ def apply_font(run, size: float | None = None, bold: bool | None = None) -> None
 
 def apply_style_font(style) -> None:
     style.font.name = E_FONT
+    style.font.color.rgb = RGBColor(0, 0, 0)
     r_pr = style._element.get_or_add_rPr()
     r_fonts = r_pr.rFonts
     if r_fonts is None:
@@ -770,40 +810,104 @@ def metadata_value(key: str) -> str:
     return f"미입력: {dict(REQUIRED_METADATA).get(key, key)}"
 
 
-def add_caption(doc: Document, text: str) -> None:
-    p = doc.add_paragraph()
+def add_caption_to(container, text: str, space_before: float = 5, space_after: float = 0) -> None:
+    p = container.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p.paragraph_format.keep_with_next = False
-    p.paragraph_format.space_after = Pt(7)
+    p.paragraph_format.keep_together = True
+    p.paragraph_format.space_before = Pt(space_before)
+    p.paragraph_format.space_after = Pt(space_after)
     run = p.add_run(text)
     apply_font(run, 9.2, bold=True)
 
 
-def add_figure(doc: Document, idx: int) -> None:
+def add_caption(doc: Document, text: str) -> None:
+    add_caption_to(doc, text, space_before=5, space_after=7)
+
+
+def add_isolated_visual_container(doc: Document):
+    doc.add_page_break()
+    layout = doc.add_table(rows=1, cols=1)
+    layout.alignment = WD_TABLE_ALIGNMENT.CENTER
+    set_table_borders_none(layout)
+    set_row_height_at_least(layout.rows[0], 19.8)
+    cell = layout.cell(0, 0)
+    cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+    cell.text = ""
+    return cell
+
+
+def fit_image_dimensions(path: Path, max_width_cm: float = 12.8, max_height_cm: float = 16.3):
+    with Image.open(path) as image:
+        width_px, height_px = image.size
+    aspect = height_px / max(width_px, 1)
+    width_cm = max_width_cm
+    height_cm = width_cm * aspect
+    if height_cm > max_height_cm:
+        height_cm = max_height_cm
+        width_cm = height_cm / max(aspect, 0.01)
+        return None, Cm(height_cm)
+    return Cm(width_cm), None
+
+
+def add_figure_item(cell, idx: int, *, max_width_cm: float, max_height_cm: float) -> None:
     caption, filename = FIGURES[idx]
     image_path = OUT_DIR / filename if "/" in filename else FIG_DIR / filename
-    doc.add_page_break()
-    p = doc.add_paragraph()
+    p = cell.add_paragraph() if cell.paragraphs[0].text else cell.paragraphs[0]
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.keep_together = True
+    p.paragraph_format.keep_with_next = True
     run = p.add_run()
-    run.add_picture(str(image_path), width=Cm(12.7))
-    add_caption(doc, caption)
+    width, height = fit_image_dimensions(image_path, max_width_cm=max_width_cm, max_height_cm=max_height_cm)
+    if width is not None:
+        run.add_picture(str(image_path), width=width)
+    else:
+        run.add_picture(str(image_path), height=height)
+    add_caption_to(cell, caption, space_before=8, space_after=0)
+
+
+def add_figure_group(doc: Document, indices: list[int]) -> None:
+    cell = add_isolated_visual_container(doc)
+    if len(indices) == 1:
+        add_figure_item(cell, indices[0], max_width_cm=12.8, max_height_cm=16.3)
+    else:
+        for pos, idx in enumerate(indices[:2]):
+            if pos:
+                gap = cell.add_paragraph()
+                gap.paragraph_format.space_after = Pt(12)
+            add_figure_item(cell, idx, max_width_cm=11.7, max_height_cm=6.8)
     doc.add_page_break()
+
+
+def add_figure(doc: Document, idx: int) -> None:
+    add_figure_group(doc, [idx])
 
 
 def add_table(doc: Document, idx: int) -> None:
     caption, rows = TABLES[idx]
-    doc.add_page_break()
-    add_caption(doc, caption)
-    table = doc.add_table(rows=len(rows), cols=len(rows[0]))
+    cell = add_isolated_visual_container(doc)
+    table = cell.add_table(rows=len(rows), cols=len(rows[0]))
     table.alignment = WD_TABLE_ALIGNMENT.CENTER
     table.style = "Table Grid"
     for r_i, row in enumerate(rows):
+        set_row_cant_split(table.rows[r_i])
         if r_i == 0:
             set_repeat_table_header(table.rows[0])
         for c_i, text in enumerate(row):
             set_cell_text(table.cell(r_i, c_i), text, bold=(r_i == 0), shade=None)
+    add_caption_to(cell, caption, space_before=8, space_after=0)
     doc.add_page_break()
+
+
+def compact_paragraphs(paragraphs: list[str]) -> list[str]:
+    if MAX_PARAGRAPHS_PER_SUBSECTION <= 0 or len(paragraphs) <= MAX_PARAGRAPHS_PER_SUBSECTION:
+        return paragraphs
+    selected = paragraphs[:MAX_PARAGRAPHS_PER_SUBSECTION]
+    for paragraph in paragraphs[MAX_PARAGRAPHS_PER_SUBSECTION:]:
+        if "Figure" in paragraph or "Table" in paragraph:
+            if paragraph not in selected:
+                selected[-1] = paragraph
+    return selected
 
 
 def add_front_matter(doc: Document) -> None:
@@ -858,7 +962,7 @@ def add_front_matter(doc: Document) -> None:
 
     center_line("목차", 16, True, 18)
     toc_items = [section["heading"] for section in SECTION_DATA] + ["참고문헌"]
-    if int(os.environ.get("EXTRA_REVIEW_NOTES", "12")) > 0:
+    if int(os.environ.get("EXTRA_REVIEW_NOTES", "0")) > 0:
         toc_items.append("부록 A. 문헌별 검토 메모")
     toc_items += ["Abstract"]
     for item in toc_items:
@@ -889,7 +993,7 @@ def add_body(doc: Document) -> None:
         for sub in section["subs"]:
             subheading, paragraphs, *maybe_fig = sub
             doc.add_heading(subheading, level=2)
-            for para in paragraphs:
+            for para in compact_paragraphs(paragraphs):
                 add_para(doc, para)
             key = re.match(r"(\d+\.\d+)", subheading).group(1)
             if key in {"1.3"}:
@@ -908,11 +1012,19 @@ def add_body(doc: Document) -> None:
             if maybe_fig:
                 fig_indices.append(maybe_fig[0])
             fig_indices.extend(sourced_figure_map.get(key, []))
+            group: list[int] = []
             for fig_idx in fig_indices:
-                if fig_idx not in table_inserted:
-                    add_figure(doc, fig_idx)
-                    table_inserted.add(fig_idx)
-            add_expansion_paragraphs(doc, subheading)
+                if fig_idx in table_inserted:
+                    continue
+                group.append(fig_idx)
+                table_inserted.add(fig_idx)
+                if len(group) == 2:
+                    add_figure_group(doc, group)
+                    group = []
+            if group:
+                add_figure_group(doc, group)
+            if ADD_EXPANSION_PARAGRAPHS:
+                add_expansion_paragraphs(doc, subheading)
 
 
 def add_expansion_paragraphs(doc: Document, subheading: str) -> None:
@@ -951,7 +1063,7 @@ def add_back_matter(doc: Document) -> None:
 
 
 def add_appendix_depth(doc: Document) -> None:
-    extra_notes = int(os.environ.get("EXTRA_REVIEW_NOTES", "12"))
+    extra_notes = int(os.environ.get("EXTRA_REVIEW_NOTES", "0"))
     if extra_notes <= 0:
         return
     doc.add_page_break()

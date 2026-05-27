@@ -28,6 +28,13 @@ review_project:
     omit_acknowledgements: true
     figure_table_isolated_pages: true
     max_items_per_figure_table_page: 2
+    figure_table_never_split_across_pages: true
+    figure_table_never_clip_or_crop: true
+    figure_table_center_single_item_group: true
+    figure_table_center_two_item_group: true
+    figure_table_two_item_gap_min_pt: 12
+    figure_table_pdf_center_tolerance_ratio: 0.08
+    figure_table_pdf_edge_margin_min_ratio: 0.02
     font_color: "000000"
 
 institution:

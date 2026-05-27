@@ -44,7 +44,7 @@ Then work only inside that project folder for manuscript-specific files. Locate 
 
 If the user gives instructions in chat that supersede the config, follow the newest user instruction and update the next working assumptions.
 
-Before generating a new thesis/review DOCX, run the project metadata preflight. If degree type, department/major, advisor, submission/approval month, author, committee roles, or title are missing, ask the user for those values in a concise checklist and pause document generation until they answer, unless they explicitly ask for a placeholder draft.
+Before generating a new thesis/review DOCX, run the project metadata preflight. If degree type, department/major, advisor, submission/approval month, author, committee roles, title, or page-count strictness are missing, ask the user for those values in a concise checklist and pause document generation until they answer, unless they explicitly ask for a placeholder draft.
 
 ## Workflow
 

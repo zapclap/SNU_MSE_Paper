@@ -42,6 +42,10 @@ review_project:
   selected_topic: ""
   topic_rationale: ""
   target_pages: {args.target_pages}
+  page_count_policy:
+    exact_target_required: null
+    allow_over_target: null
+    confirm_before_generation: true
   language: {q(args.language)}
   citation_style: {q(args.citation_style)}
   image_mode: {q(args.image_mode)}

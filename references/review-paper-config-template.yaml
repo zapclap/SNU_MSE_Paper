@@ -6,6 +6,10 @@ review_project:
   selected_topic: ""
   topic_rationale: ""
   target_pages: 50
+  page_count_policy:
+    exact_target_required: null
+    allow_over_target: null
+    confirm_before_generation: true
   language: "ko"
   citation_style: "numeric"
   image_mode: "source_figures_with_references" # generated_schematics | source_figures_with_references | mixed

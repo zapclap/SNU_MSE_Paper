@@ -4,6 +4,10 @@ review_project:
   selected_topic: "암모니아 에너지 시스템에서의 원치 않는 질화 및 질화부식"
   topic_rationale: "2024-2026년 문헌에서 암모니아 크래킹, 암모니아 연소, 가스터빈, 선박엔진, 저장·수송 인프라의 재료 신뢰성 문제가 집중적으로 증가하고 있음."
   target_pages: 50
+  page_count_policy:
+    exact_target_required: null
+    allow_over_target: null
+    confirm_before_generation: true
   language: "ko"
   citation_style: "numeric"
   image_mode: "source_figures_with_references"
@@ -48,3 +52,10 @@ layout_rules:
     allowed_content_on_item_page: ["figure_or_table", "caption"]
     default_items_per_page: 1
     max_items_per_page_when_small: 2
+    never_split_across_pages: true
+    never_clip_or_crop: true
+    center_single_item_group: true
+    center_two_item_group: true
+    two_item_gap_min_pt: 12
+    pdf_center_tolerance_ratio: 0.08
+    pdf_edge_margin_min_ratio: 0.02

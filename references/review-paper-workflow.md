@@ -69,6 +69,7 @@ Required or inferable:
 - submission month and approval month
 - committee names and roles
 - target page count
+- whether the page count must be exact, or whether the manuscript may exceed the target when figure/table isolation and centering require more pages
 - language
 - citation style
 
@@ -185,6 +186,8 @@ Do not create a separate submission/title page in between the cover and approval
 - After every layout change, re-export through Microsoft Word, inspect the rendered PDF pages, and refresh the table/figure lists.
 
 ## Page-Count Control
+
+Before drafting, ask whether the target page count is strict or flexible. If strict, tune prose density, appendix depth, and item grouping after PDF export. If flexible, preserve clean figure/table isolation and readable synthesis even when the final page count exceeds the initial target.
 
 1. Generate the DOCX.
 2. Export through Microsoft Word using `scripts/thesis_tool.py render-pdf`.

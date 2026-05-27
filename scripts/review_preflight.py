@@ -31,6 +31,10 @@ REQUIRED_FIELDS = [
     ("metadata.committee.chair", "위원장 성함을 알려주세요."),
     ("metadata.committee.vice_chair", "부위원장 성함을 알려주세요."),
     ("metadata.committee.members", "심사위원 명단을 알려주세요. 외부심사위원이면 역할도 함께 적어주세요."),
+    (
+        "review_project.page_count_policy.allow_over_target",
+        "쪽수는 목표 페이지에 엄격히 맞출까요, 아니면 표/그림 전체 페이지 규칙 때문에 목표보다 많아져도 괜찮을까요?",
+    ),
 ]
 
 
