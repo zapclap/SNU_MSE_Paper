@@ -216,10 +216,10 @@ def cmd_pdf_map(args: argparse.Namespace) -> None:
     body_start = args.body_start_physical or detect_body_start(pages)
     result: dict[str, Any] = {"pdf": str(pdf), "page_count": len(pages), "figures": {}, "tables": {}, "headings": {}}
 
+    major_heading_pattern = r"\b([1-9]\.\s+.+?)(?=\s+[1-9]\.\d+\s|\s+Figure\s+\d+\.|\s+Table\s+\d+\.|$)"
     heading_patterns = [
-        r"[1-5]\.\s+[^\d].{1,80}?",
-        r"[1-5]\.\d+\.\s+.{1,100}?",
-        r"[1-5]\.\d+\.\d+\.\s+.{1,120}?",
+        r"[1-9]\.\d+\.\s+[^.]{1,100}",
+        r"[1-9]\.\d+\.\d+\.\s+[^.]{1,120}",
     ]
 
     for physical, text in enumerate(pages, start=1):
@@ -230,6 +230,13 @@ def cmd_pdf_map(args: argparse.Namespace) -> None:
             for match in re.finditer(rf"\b{kind}\s+(\d+)\.", text):
                 n = match.group(1)
                 result[key].setdefault(n, {"physical_page": physical, "printed_page": printed})
+        for match in re.finditer(major_heading_pattern, text):
+            title = " ".join(match.group(1).split())
+            result["headings"].setdefault(title, {"physical_page": physical, "printed_page": printed})
+        if text.startswith("참고문헌") or re.search(r"(^|\s)참고문헌\s+\[\d+\]", text):
+            result["headings"].setdefault("참고문헌", {"physical_page": physical, "printed_page": printed})
+        if text.startswith("Abstract ") or text == "Abstract" or re.match(r"^\d+\s+Abstract\b", text):
+            result["headings"].setdefault("Abstract", {"physical_page": physical, "printed_page": printed})
         for pattern in heading_patterns:
             for match in re.finditer(pattern, text):
                 title = " ".join(match.group(0).split())

@@ -1,0 +1,511 @@
+{
+  "ok": true,
+  "pages": [
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_010.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 145,
+        "top": 227,
+        "right": 716,
+        "bottom": 874
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.00847457627118644
+      },
+      "edge_margin_ratio": {
+        "left": 0.14849187935034802,
+        "right": 0.14965197215777262,
+        "top": 0.16271186440677965,
+        "bottom": 0.17966101694915254
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_011.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 143,
+        "top": 333,
+        "right": 717,
+        "bottom": 749
+      },
+      "center_offset_ratio": {
+        "x": -0.001160092807424594,
+        "y": -0.01652542372881356
+      },
+      "edge_margin_ratio": {
+        "left": 0.14617169373549885,
+        "right": 0.14849187935034802,
+        "top": 0.25254237288135595,
+        "bottom": 0.28559322033898304
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_013.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 156,
+        "top": 348,
+        "right": 696,
+        "bottom": 737
+      },
+      "center_offset_ratio": {
+        "x": -0.00580046403712297,
+        "y": -0.015254237288135594
+      },
+      "edge_margin_ratio": {
+        "left": 0.16125290023201855,
+        "right": 0.1728538283062645,
+        "top": 0.2652542372881356,
+        "bottom": 0.2957627118644068
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_014.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 140,
+        "top": 215,
+        "right": 721,
+        "bottom": 853
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.022457627118644068
+      },
+      "edge_margin_ratio": {
+        "left": 0.14269141531322505,
+        "right": 0.14385150812064965,
+        "top": 0.15254237288135594,
+        "bottom": 0.19745762711864406
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_015.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 149,
+        "top": 356,
+        "right": 712,
+        "bottom": 725
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.01694915254237288
+      },
+      "edge_margin_ratio": {
+        "left": 0.1531322505800464,
+        "right": 0.154292343387471,
+        "top": 0.27203389830508473,
+        "bottom": 0.3059322033898305
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_017.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 152,
+        "top": 348,
+        "right": 696,
+        "bottom": 737
+      },
+      "center_offset_ratio": {
+        "x": -0.008120649651972157,
+        "y": -0.015254237288135594
+      },
+      "edge_margin_ratio": {
+        "left": 0.15661252900232017,
+        "right": 0.1728538283062645,
+        "top": 0.2652542372881356,
+        "bottom": 0.2957627118644068
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_018.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 140,
+        "top": 166,
+        "right": 721,
+        "bottom": 904
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.021610169491525423
+      },
+      "edge_margin_ratio": {
+        "left": 0.14269141531322505,
+        "right": 0.14385150812064965,
+        "top": 0.11101694915254237,
+        "bottom": 0.15423728813559323
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_019.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 140,
+        "top": 378,
+        "right": 721,
+        "bottom": 690
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.022457627118644068
+      },
+      "edge_margin_ratio": {
+        "left": 0.14269141531322505,
+        "right": 0.14385150812064965,
+        "top": 0.29067796610169494,
+        "bottom": 0.33559322033898303
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_022.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 145,
+        "top": 296,
+        "right": 716,
+        "bottom": 806
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.008050847457627118
+      },
+      "edge_margin_ratio": {
+        "left": 0.14849187935034802,
+        "right": 0.14965197215777262,
+        "top": 0.2211864406779661,
+        "bottom": 0.23728813559322035
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_023.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 142,
+        "top": 348,
+        "right": 718,
+        "bottom": 737
+      },
+      "center_offset_ratio": {
+        "x": -0.001160092807424594,
+        "y": -0.015254237288135594
+      },
+      "edge_margin_ratio": {
+        "left": 0.14501160092807425,
+        "right": 0.14733178654292342,
+        "top": 0.2652542372881356,
+        "bottom": 0.2957627118644068
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_027.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 165,
+        "top": 348,
+        "right": 696,
+        "bottom": 737
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.015254237288135594
+      },
+      "edge_margin_ratio": {
+        "left": 0.1716937354988399,
+        "right": 0.1728538283062645,
+        "top": 0.2652542372881356,
+        "bottom": 0.2957627118644068
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_028.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 140,
+        "top": 379,
+        "right": 721,
+        "bottom": 691
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.021610169491525423
+      },
+      "edge_margin_ratio": {
+        "left": 0.14269141531322505,
+        "right": 0.14385150812064965,
+        "top": 0.29152542372881357,
+        "bottom": 0.3347457627118644
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_030.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 165,
+        "top": 348,
+        "right": 696,
+        "bottom": 737
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.015254237288135594
+      },
+      "edge_margin_ratio": {
+        "left": 0.1716937354988399,
+        "right": 0.1728538283062645,
+        "top": 0.2652542372881356,
+        "bottom": 0.2957627118644068
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_033.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 145,
+        "top": 282,
+        "right": 716,
+        "bottom": 819
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.00847457627118644
+      },
+      "edge_margin_ratio": {
+        "left": 0.14849187935034802,
+        "right": 0.14965197215777262,
+        "top": 0.2093220338983051,
+        "bottom": 0.22627118644067798
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_036.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 165,
+        "top": 348,
+        "right": 696,
+        "bottom": 737
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.015254237288135594
+      },
+      "edge_margin_ratio": {
+        "left": 0.1716937354988399,
+        "right": 0.1728538283062645,
+        "top": 0.2652542372881356,
+        "bottom": 0.2957627118644068
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_038.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 165,
+        "top": 348,
+        "right": 696,
+        "bottom": 737
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.015254237288135594
+      },
+      "edge_margin_ratio": {
+        "left": 0.1716937354988399,
+        "right": 0.1728538283062645,
+        "top": 0.2652542372881356,
+        "bottom": 0.2957627118644068
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_040.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 145,
+        "top": 296,
+        "right": 716,
+        "bottom": 806
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.008050847457627118
+      },
+      "edge_margin_ratio": {
+        "left": 0.14849187935034802,
+        "right": 0.14965197215777262,
+        "top": 0.2211864406779661,
+        "bottom": 0.23728813559322035
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_041.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 148,
+        "top": 389,
+        "right": 709,
+        "bottom": 692
+      },
+      "center_offset_ratio": {
+        "x": -0.002900232018561485,
+        "y": -0.01694915254237288
+      },
+      "edge_margin_ratio": {
+        "left": 0.1519721577726218,
+        "right": 0.15777262180974477,
+        "top": 0.3,
+        "bottom": 0.3338983050847458
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_043.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 145,
+        "top": 341,
+        "right": 716,
+        "bottom": 761
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.008050847457627118
+      },
+      "edge_margin_ratio": {
+        "left": 0.14849187935034802,
+        "right": 0.14965197215777262,
+        "top": 0.2593220338983051,
+        "bottom": 0.2754237288135593
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_045.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 165,
+        "top": 348,
+        "right": 696,
+        "bottom": 737
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.015254237288135594
+      },
+      "edge_margin_ratio": {
+        "left": 0.1716937354988399,
+        "right": 0.1728538283062645,
+        "top": 0.2652542372881356,
+        "bottom": 0.2957627118644068
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_048.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 145,
+        "top": 259,
+        "right": 716,
+        "bottom": 843
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.008050847457627118
+      },
+      "edge_margin_ratio": {
+        "left": 0.14849187935034802,
+        "right": 0.14965197215777262,
+        "top": 0.18983050847457628,
+        "bottom": 0.2059322033898305
+      },
+      "ok": true
+    },
+    {
+      "path": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_051.png",
+      "width": 862,
+      "height": 1180,
+      "content_found": true,
+      "bbox": {
+        "left": 165,
+        "top": 348,
+        "right": 696,
+        "bottom": 737
+      },
+      "center_offset_ratio": {
+        "x": -0.000580046403712297,
+        "y": -0.015254237288135594
+      },
+      "edge_margin_ratio": {
+        "left": 0.1716937354988399,
+        "right": 0.1728538283062645,
+        "top": 0.2652542372881356,
+        "bottom": 0.2957627118644068
+      },
+      "ok": true
+    }
+  ]
+}

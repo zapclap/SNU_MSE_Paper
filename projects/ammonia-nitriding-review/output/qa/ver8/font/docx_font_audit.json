@@ -1,0 +1,11 @@
+{
+  "docx": "projects/ammonia-nitriding-review/output/docx/김영광_암모니아질화_리뷰논문_Ver8.docx",
+  "expected": {
+    "ascii": "Times New Roman",
+    "hAnsi": "Times New Roman",
+    "cs": "Times New Roman",
+    "eastAsia": "Batang"
+  },
+  "ok": true,
+  "violations": []
+}

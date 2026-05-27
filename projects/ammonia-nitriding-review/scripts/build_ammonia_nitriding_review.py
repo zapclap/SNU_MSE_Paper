@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import os
 import re
+from functools import lru_cache
 from pathlib import Path
 from urllib.request import Request, urlopen
 
@@ -28,7 +29,46 @@ MAX_PARAGRAPHS_PER_SUBSECTION = int(os.environ.get("MAX_PARAGRAPHS_PER_SUBSECTIO
 
 K_FONT = "Batang"
 E_FONT = "Times New Roman"
-FIG_FONT = "/System/Library/Fonts/AppleSDGothicNeo.ttc"
+FIG_K_FONT_ENV = os.environ.get("FIG_K_FONT") or os.environ.get("FIG_FONT")
+FIG_E_FONT_ENV = os.environ.get("FIG_E_FONT")
+
+
+def resolve_font_file(env_value: str | None, candidates: list[str], label: str) -> str:
+    if env_value and Path(env_value).expanduser().exists():
+        return str(Path(env_value).expanduser())
+    for candidate in candidates:
+        path = Path(candidate).expanduser()
+        if path.exists():
+            return str(path)
+    raise SystemExit(
+        f"{label} 그림 글꼴 파일을 찾지 못했습니다. "
+        f"해당 글꼴을 설치하거나 환경변수 FIG_K_FONT/FIG_E_FONT로 경로를 지정하세요."
+    )
+
+
+FIG_K_FONT = resolve_font_file(
+    FIG_K_FONT_ENV,
+    [
+        "/Applications/Microsoft Word.app/Contents/Resources/DFonts/batang.ttc",
+        "/Applications/Microsoft PowerPoint.app/Contents/Resources/DFonts/batang.ttc",
+        "/Applications/Microsoft Excel.app/Contents/Resources/DFonts/batang.ttc",
+        "/System/Library/Fonts/Supplemental/Batang.ttf",
+        "/Library/Fonts/Batang.ttf",
+        "~/Library/Fonts/Batang.ttf",
+        "~/Library/Fonts/batang.ttc",
+    ],
+    "Batang",
+)
+FIG_E_FONT = resolve_font_file(
+    FIG_E_FONT_ENV,
+    [
+        "/System/Library/Fonts/Supplemental/Times New Roman.ttf",
+        "/System/Library/Fonts/Supplemental/Times.ttf",
+        "/Library/Fonts/Times New Roman.ttf",
+        "~/Library/Fonts/Times New Roman.ttf",
+    ],
+    "Times New Roman",
+)
 
 
 def env_value(name: str, default: str = "") -> str:
@@ -387,28 +427,74 @@ def download_source_figures() -> None:
             path.write_bytes(response.read())
 
 
-def font(size: int) -> ImageFont.FreeTypeFont:
-    return ImageFont.truetype(FIG_FONT, size=size)
+def is_korean_char(ch: str) -> bool:
+    return (
+        "\u1100" <= ch <= "\u11ff"
+        or "\u3130" <= ch <= "\u318f"
+        or "\uac00" <= ch <= "\ud7af"
+    )
 
 
-def wrap_text(draw: ImageDraw.ImageDraw, text: str, fnt: ImageFont.FreeTypeFont, max_width: int) -> list[str]:
+@lru_cache(maxsize=64)
+def font_for(script: str, size: int) -> ImageFont.FreeTypeFont:
+    return ImageFont.truetype(FIG_K_FONT if script == "ko" else FIG_E_FONT, size=size)
+
+
+def text_runs(text: str) -> list[tuple[str, str]]:
+    runs: list[tuple[str, str]] = []
+    current = ""
+    current_script: str | None = None
+    for ch in text:
+        script = "ko" if is_korean_char(ch) else "latin"
+        if current and script != current_script:
+            runs.append((current_script or "latin", current))
+            current = ch
+        else:
+            current += ch
+        current_script = script
+    if current:
+        runs.append((current_script or "latin", current))
+    return runs
+
+
+def mixed_text_width(draw: ImageDraw.ImageDraw, text: str, size: int) -> int:
+    width = 0
+    for script, value in text_runs(text):
+        bbox = draw.textbbox((0, 0), value, font=font_for(script, size))
+        width += bbox[2] - bbox[0]
+    return width
+
+
+def draw_text(draw: ImageDraw.ImageDraw, xy, text: str, size: int, fill=(0, 0, 0)) -> None:
+    x, y = xy
+    for line in str(text).split("\n"):
+        cursor = x
+        for script, value in text_runs(line):
+            fnt = font_for(script, size)
+            draw.text((cursor, y), value, font=fnt, fill=fill)
+            bbox = draw.textbbox((0, 0), value, font=fnt)
+            cursor += bbox[2] - bbox[0]
+        y += size + 8
+
+
+def wrap_text(draw: ImageDraw.ImageDraw, text: str, size: int, max_width: int) -> list[str]:
     words = text.split(" ")
     lines: list[str] = []
     line = ""
     for word in words:
         test = word if not line else f"{line} {word}"
-        if draw.textbbox((0, 0), test, font=fnt)[2] <= max_width:
+        if mixed_text_width(draw, test, size) <= max_width:
             line = test
         else:
             if line:
                 lines.append(line)
-            if draw.textbbox((0, 0), word, font=fnt)[2] <= max_width:
+            if mixed_text_width(draw, word, size) <= max_width:
                 line = word
             else:
                 chunk = ""
                 for ch in word:
                     test_chunk = chunk + ch
-                    if draw.textbbox((0, 0), test_chunk, font=fnt)[2] <= max_width:
+                    if mixed_text_width(draw, test_chunk, size) <= max_width:
                         chunk = test_chunk
                     else:
                         if chunk:
@@ -420,20 +506,19 @@ def wrap_text(draw: ImageDraw.ImageDraw, text: str, fnt: ImageFont.FreeTypeFont,
     return lines
 
 
-def draw_box(draw: ImageDraw.ImageDraw, box, text: str, fill, outline, txt=(24, 34, 42), size=34, align="center") -> None:
+def draw_box(draw: ImageDraw.ImageDraw, box, text: str, fill, outline, txt=(0, 0, 0), size=34, align="center") -> None:
     x1, y1, x2, y2 = box
     draw.rounded_rectangle(box, radius=18, fill=fill, outline=outline, width=3)
-    fnt = font(size)
-    lines = wrap_text(draw, text, fnt, x2 - x1 - 36)
+    lines = wrap_text(draw, text, size, x2 - x1 - 36)
     total_h = len(lines) * (size + 8)
     y = y1 + (y2 - y1 - total_h) / 2
     for line in lines:
-        width = draw.textbbox((0, 0), line, font=fnt)[2]
+        width = mixed_text_width(draw, line, size)
         if align == "center":
             x = x1 + (x2 - x1 - width) / 2
         else:
             x = x1 + 22
-        draw.text((x, y), line, font=fnt, fill=txt)
+        draw_text(draw, (x, y), line, size, txt)
         y += size + 8
 
 
@@ -455,8 +540,7 @@ def arrow(draw: ImageDraw.ImageDraw, start, end, color=(72, 88, 101), width=5) -
 
 
 def title(draw: ImageDraw.ImageDraw, text: str) -> None:
-    fnt = font(44)
-    draw.text((70, 44), text, font=fnt, fill=(25, 38, 52))
+    draw_text(draw, (70, 44), text, 44, (0, 0, 0))
     draw.line([(70, 102), (1530, 102)], fill=(72, 115, 135), width=4)
 
 
@@ -490,7 +574,7 @@ def make_figures() -> None:
         for a, b in zip(xs[:-1], xs[1:]):
             arrow(d, (a + 110, 290), (b - 110, 290))
         d.rectangle((180, 650, 1420, 760), fill=(226, 231, 235), outline=(105, 115, 123), width=3)
-        d.text((210, 690), "금속 기지: Fe-Cr-Ni/Fe-Cr-Mo/HP40/MCrAlY", font=font(34), fill=(35, 45, 52))
+        draw_text(d, (210, 690), "금속 기지: Fe-Cr-Ni/Fe-Cr-Mo/HP40/MCrAlY", 34)
         for x in [960, 1030, 1100, 1170, 1240]:
             d.ellipse((x, 600, x + 28, 628), fill=(203, 82, 69))
             arrow(d, (x + 14, 628), (x + 14, 650), color=(203, 82, 69), width=4)
@@ -504,37 +588,37 @@ def make_figures() -> None:
         d.line((190, 820, 190, 170), fill=(40, 50, 60), width=4)
         arrow(d, (1430, 820), (1500, 820))
         arrow(d, (190, 170), (190, 105))
-        d.text((700, 865), "Temperature", font=font(32), fill=(40, 50, 60))
-        d.text((35, 385), "Nitriding potential", font=font(32), fill=(40, 50, 60))
+        draw_text(d, (700, 865), "Temperature", 32)
+        draw_text(d, (35, 385), "Nitriding potential", 32)
         d.polygon([(220, 790), (620, 780), (520, 570), (245, 590)], fill=(234, 247, 240), outline=(74, 132, 96))
-        d.text((285, 680), "저온 질화\nS-phase", font=font(30), fill=(35, 70, 55))
+        draw_text(d, (285, 680), "저온 질화\nS-phase", 30)
         d.polygon([(570, 765), (1040, 700), (930, 410), (560, 500)], fill=(252, 240, 224), outline=(180, 112, 49))
-        d.text((660, 575), "가스질화\nFe 질화물", font=font(30), fill=(120, 70, 35))
+        draw_text(d, (660, 575), "가스질화\nFe 질화물", 30)
         d.polygon([(910, 720), (1430, 620), (1370, 220), (980, 350)], fill=(255, 234, 230), outline=(190, 85, 70))
-        d.text((1060, 460), "고온 NH3\n원치 않는 질화부식", font=font(30), fill=(125, 45, 40))
+        draw_text(d, (1060, 460), "고온 NH3\n원치 않는 질화부식", 30)
         d.polygon([(260, 805), (520, 805), (480, 740), (280, 750)], fill=(235, 239, 245), outline=(90, 100, 115))
-        d.text((300, 770), "액체 NH3 SCC\n별도 모드", font=font(24), fill=(60, 66, 78))
+        draw_text(d, (300, 770), "액체 NH3 SCC\n별도 모드", 24)
 
     def f4(d):
         title(d, "암모니아 크래킹 반응기 내 위치 의존성")
         d.rounded_rectangle((140, 370, 1460, 590), radius=80, fill=(240, 244, 248), outline=(83, 98, 119), width=5)
         arrow(d, (185, 480), (1415, 480), color=(52, 92, 130), width=8)
-        d.text((200, 410), "NH3 높음", font=font(32), fill=(38, 70, 104))
-        d.text((1240, 410), "NH3 낮음", font=font(32), fill=(38, 70, 104))
+        draw_text(d, (200, 410), "NH3 높음", 32)
+        draw_text(d, (1240, 410), "NH3 낮음", 32)
         for i, (x, lab, col) in enumerate([(380, "상류\n강한 질화", (252, 225, 220)), (800, "중앙\n혼합 영역", (255, 245, 224)), (1220, "하류\n약한 질화", (230, 244, 235))]):
             draw_box(d, (x - 130, 640, x + 130, 790), lab, col, (90, 100, 110), size=30)
             arrow(d, (x, 590), (x, 640), color=(90, 100, 110), width=4)
-        d.text((290, 830), "온도, NH3 전환율, H2 생성, 촉매층 위치가 질화층 두께와 상을 동시에 바꾼다.", font=font(31), fill=(35, 45, 52))
+        draw_text(d, (290, 830), "온도, NH3 전환율, H2 생성, 촉매층 위치가 질화층 두께와 상을 동시에 바꾼다.", 31)
 
     def f5(d):
         title(d, "암모니아 화염-벽 질화")
         d.polygon([(330, 750), (520, 210), (710, 750)], fill=(255, 219, 135), outline=(205, 125, 36))
         d.polygon([(410, 750), (520, 320), (630, 750)], fill=(255, 160, 86))
         d.rectangle((250, 760, 1350, 850), fill=(219, 225, 230), outline=(85, 95, 105), width=4)
-        d.text((665, 792), "SUS310S / combustor wall", font=font(32), fill=(45, 52, 60))
+        draw_text(d, (665, 792), "SUS310S / combustor wall", 32)
         for txt, xy in [("NH3", (760, 300)), ("NH2", (845, 400)), ("NH", (785, 510)), ("H2O", (1010, 385))]:
             d.ellipse((xy[0], xy[1], xy[0] + 95, xy[1] + 70), fill=(241, 248, 252), outline=(72, 115, 135), width=3)
-            d.text((xy[0] + 15, xy[1] + 16), txt, font=font(28), fill=(35, 58, 78))
+            draw_text(d, (xy[0] + 15, xy[1] + 16), txt, 28)
             arrow(d, (xy[0] + 45, xy[1] + 70), (760, 760), color=(72, 115, 135), width=3)
         draw_box(d, (930, 600, 1320, 710), "수증기: 표면 산화/반응성 저하\n질화 억제 가능", (236, 248, 244), (76, 132, 117), size=25)
 
@@ -543,29 +627,29 @@ def make_figures() -> None:
         headers = ["Fe 저합금", "Austenitic SS", "Ni계/MCrAlY", "Al2O3 장벽"]
         rows = ["N 흡수", "취성 질화물", "코팅/산화막 고갈", "장기 안정성"]
         colors = [(248, 226, 220), (255, 242, 210), (232, 244, 235), (222, 236, 247)]
-        d.text((310, 170), "낮음", font=font(28), fill=(50, 80, 70))
-        d.text((1335, 170), "높음", font=font(28), fill=(130, 50, 45))
+        draw_text(d, (310, 170), "낮음", 28)
+        draw_text(d, (1335, 170), "높음", 28)
         for i, h in enumerate(headers):
-            d.text((330 + i * 295, 230), h, font=font(26), fill=(35, 45, 52))
+            draw_text(d, (330 + i * 295, 230), h, 26)
         matrix = [[3, 2, 2, 1], [3, 2, 2, 1], [1, 2, 3, 1], [2, 2, 2, 2]]
         for r, row in enumerate(rows):
-            d.text((90, 330 + r * 125), row, font=font(28), fill=(35, 45, 52))
+            draw_text(d, (90, 330 + r * 125), row, 28)
             for c, val in enumerate(matrix[r]):
                 x, y = 360 + c * 295, 315 + r * 125
                 d.rounded_rectangle((x, y, x + 160, y + 72), radius=16, fill=colors[val], outline=(120, 128, 135), width=2)
-                d.text((x + 58, y + 17), str(val), font=font(34), fill=(35, 45, 52))
-        d.text((360, 870), "1=상대적으로 낮음, 3=상대적으로 높음. 실제 평가는 온도·가스조성·시간·표면상태에 의존한다.", font=font(28), fill=(60, 66, 72))
+                draw_text(d, (x + 58, y + 17), str(val), 34)
+        draw_text(d, (360, 870), "1=상대적으로 낮음, 3=상대적으로 높음. 실제 평가는 온도·가스조성·시간·표면상태에 의존한다.", 28)
 
     def f7(d):
         title(d, "Al2O3 장벽 코팅 개념")
         d.rectangle((250, 700, 1350, 820), fill=(206, 214, 222), outline=(77, 87, 96), width=3)
-        d.text((690, 740), "HP40 / 고온합금", font=font(34), fill=(35, 45, 52))
+        draw_text(d, (690, 740), "HP40 / 고온합금", 34)
         d.rectangle((250, 610, 1350, 700), fill=(228, 198, 145), outline=(130, 95, 45), width=3)
-        d.text((590, 638), "Al 확산층 / reservoir", font=font(31), fill=(55, 45, 35))
+        draw_text(d, (590, 638), "Al 확산층 / reservoir", 31)
         d.rectangle((250, 555, 1350, 610), fill=(245, 248, 252), outline=(72, 115, 135), width=4)
-        d.text((640, 567), "dense α-Al2O3", font=font(28), fill=(35, 58, 78))
+        draw_text(d, (640, 567), "dense α-Al2O3", 28)
         for x in [350, 520, 690, 860, 1030, 1200]:
-            d.text((x, 235), "NH3", font=font(28), fill=(175, 75, 60))
+            draw_text(d, (x, 235), "NH3", 28)
             arrow(d, (x + 25, 285), (x + 25, 540), color=(175, 75, 60), width=4)
             d.line((x - 10, 537, x + 65, 537), fill=(175, 75, 60), width=5)
         draw_box(d, (430, 870, 1170, 945), "핵심: 운전 전 치밀한 보호 산화막을 만들고 결함을 최소화한다.", (238, 246, 241), (76, 132, 117), size=28)
@@ -599,9 +683,9 @@ def make_figures() -> None:
             (1310, "확산", "설계 코드\n재료 호환성 지도"),
         ]:
             d.ellipse((x - 32, 488, x + 32, 552), fill=(76, 132, 117))
-            d.text((x - 35, 570), lab, font=font(30), fill=(35, 45, 52))
+            draw_text(d, (x - 35, 570), lab, 30)
             draw_box(d, (x - 145, 640, x + 145, 805), desc, (241, 248, 244), (76, 132, 117), size=25)
-        d.text((220, 250), "핵심 과제: 실제 NH3/H2/H2O 조성, 위치 의존성, 용접부·응력, 코팅 결함을 동시에 반영", font=font(33), fill=(35, 45, 52))
+        draw_text(d, (220, 250), "핵심 과제: 실제 NH3/H2/H2O 조성, 위치 의존성, 용접부·응력, 코팅 결함을 동시에 반영", 33)
 
     def f10(d):
         title(d, "통합 프레임")
@@ -712,6 +796,33 @@ def add_page_number(paragraph) -> None:
     run._r.extend([fld_begin, instr, fld_sep, fld_text, fld_end])
 
 
+def set_font_slots(r_fonts) -> None:
+    r_fonts.set(qn("w:ascii"), E_FONT)
+    r_fonts.set(qn("w:hAnsi"), E_FONT)
+    r_fonts.set(qn("w:cs"), E_FONT)
+    r_fonts.set(qn("w:eastAsia"), K_FONT)
+
+
+def get_or_add_child(parent, tag: str):
+    child = parent.find(qn(tag))
+    if child is None:
+        child = OxmlElement(tag)
+        parent.append(child)
+    return child
+
+
+def set_doc_defaults_fonts(doc: Document) -> None:
+    styles_element = doc.styles.element
+    doc_defaults = styles_element.find(qn("w:docDefaults"))
+    if doc_defaults is None:
+        doc_defaults = OxmlElement("w:docDefaults")
+        styles_element.insert(0, doc_defaults)
+    r_pr_default = get_or_add_child(doc_defaults, "w:rPrDefault")
+    r_pr = get_or_add_child(r_pr_default, "w:rPr")
+    r_fonts = get_or_add_child(r_pr, "w:rFonts")
+    set_font_slots(r_fonts)
+
+
 def apply_font(run, size: float | None = None, bold: bool | None = None) -> None:
     """Use Batang for Korean glyphs and Times New Roman for Latin glyphs."""
     run.font.name = E_FONT
@@ -721,10 +832,7 @@ def apply_font(run, size: float | None = None, bold: bool | None = None) -> None
     if r_fonts is None:
         r_fonts = OxmlElement("w:rFonts")
         r_pr.append(r_fonts)
-    r_fonts.set(qn("w:ascii"), E_FONT)
-    r_fonts.set(qn("w:hAnsi"), E_FONT)
-    r_fonts.set(qn("w:cs"), E_FONT)
-    r_fonts.set(qn("w:eastAsia"), K_FONT)
+    set_font_slots(r_fonts)
     if size is not None:
         run.font.size = Pt(size)
     if bold is not None:
@@ -739,10 +847,7 @@ def apply_style_font(style) -> None:
     if r_fonts is None:
         r_fonts = OxmlElement("w:rFonts")
         r_pr.append(r_fonts)
-    r_fonts.set(qn("w:ascii"), E_FONT)
-    r_fonts.set(qn("w:hAnsi"), E_FONT)
-    r_fonts.set(qn("w:cs"), E_FONT)
-    r_fonts.set(qn("w:eastAsia"), K_FONT)
+    set_font_slots(r_fonts)
 
 
 def set_document_defaults(doc: Document) -> None:
@@ -756,6 +861,7 @@ def set_document_defaults(doc: Document) -> None:
     section.header_distance = Cm(1.5)
     section.footer_distance = Cm(1.1)
     add_page_number(section.footer.paragraphs[0])
+    set_doc_defaults_fonts(doc)
 
     styles = doc.styles
     normal = styles["Normal"]
@@ -778,8 +884,20 @@ def set_document_defaults(doc: Document) -> None:
         style.paragraph_format.keep_with_next = True
 
 
+def mark_content_added(doc: Document) -> None:
+    setattr(doc, "_snu_last_action_page_break", False)
+
+
+def add_page_break_once(doc: Document) -> None:
+    if getattr(doc, "_snu_last_action_page_break", False):
+        return
+    doc.add_page_break()
+    setattr(doc, "_snu_last_action_page_break", True)
+
+
 def add_para(doc: Document, text: str, style: str | None = None, align=None, first_indent=True) -> None:
     p = doc.add_paragraph(style=style)
+    mark_content_added(doc)
     if align is not None:
         p.alignment = align
     p.paragraph_format.line_spacing = 1.55
@@ -792,6 +910,7 @@ def add_para(doc: Document, text: str, style: str | None = None, align=None, fir
 
 def add_front_list_entry(doc: Document, text: str, size: float = 8.8) -> None:
     p = doc.add_paragraph()
+    mark_content_added(doc)
     p.paragraph_format.line_spacing = 1.55
     p.paragraph_format.space_after = Pt(3)
     run = p.add_run(text)
@@ -834,8 +953,9 @@ def add_caption(doc: Document, text: str) -> None:
 
 
 def add_isolated_visual_container(doc: Document):
-    doc.add_page_break()
+    add_page_break_once(doc)
     layout = doc.add_table(rows=1, cols=1)
+    mark_content_added(doc)
     layout.alignment = WD_TABLE_ALIGNMENT.CENTER
     set_table_borders_none(layout)
     set_row_height_at_least(layout.rows[0], 19.8)
@@ -884,7 +1004,7 @@ def add_figure_group(doc: Document, indices: list[int]) -> None:
                 gap = cell.add_paragraph()
                 gap.paragraph_format.space_after = Pt(12)
             add_figure_item(cell, idx, max_width_cm=11.7, max_height_cm=6.8)
-    doc.add_page_break()
+    add_page_break_once(doc)
 
 
 def add_figure(doc: Document, idx: int) -> None:
@@ -904,7 +1024,7 @@ def add_table(doc: Document, idx: int) -> None:
         for c_i, text in enumerate(row):
             set_cell_text(table.cell(r_i, c_i), text, bold=(r_i == 0), shade=None)
     add_caption_to(cell, caption, space_before=8, space_after=0)
-    doc.add_page_break()
+    add_page_break_once(doc)
 
 
 def compact_paragraphs(paragraphs: list[str]) -> list[str]:
@@ -921,6 +1041,7 @@ def compact_paragraphs(paragraphs: list[str]) -> list[str]:
 def add_front_matter(doc: Document) -> None:
     def center_line(text, size=16, bold=False, space=10):
         p = doc.add_paragraph()
+        mark_content_added(doc)
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
         p.paragraph_format.space_after = Pt(space)
         run = p.add_run(text)
@@ -938,7 +1059,7 @@ def add_front_matter(doc: Document) -> None:
     center_line(f"{metadata_value('department')} {metadata_value('major')}", 14, False, 22)
     center_line(METADATA["author"], 18, True, 50)
     center_line(metadata_value("submission_month"), 13, False, 10)
-    doc.add_page_break()
+    add_page_break_once(doc)
 
     # Page 2 must be a single approval page in this review-paper workflow.
     center_line(f"{METADATA['author']}의 {metadata_value('degree_name')}을 인준함", 16, True, 18)
@@ -954,7 +1075,7 @@ def add_front_matter(doc: Document) -> None:
         run = p.add_run(f"{label}     {name}      (인)")
         apply_font(run, 14)
         p.paragraph_format.space_after = Pt(24)
-    doc.add_page_break()
+    add_page_break_once(doc)
 
     # Page 3 starts with the Korean abstract.
     center_line("국문초록", 16, True, 18)
@@ -966,7 +1087,7 @@ def add_front_matter(doc: Document) -> None:
     ]
     for para in abstract:
         add_para(doc, para)
-    doc.add_page_break()
+    add_page_break_once(doc)
 
     center_line("목차", 16, True, 18)
     toc_items = [section["heading"] for section in SECTION_DATA] + ["참고문헌"]
@@ -975,17 +1096,17 @@ def add_front_matter(doc: Document) -> None:
     toc_items += ["Abstract"]
     for item in toc_items:
         add_front_list_entry(doc, f"\t{item}\t1", size=10.5)
-    doc.add_page_break()
+    add_page_break_once(doc)
 
     center_line("표 목차", 16, True, 18)
     for caption, _ in TABLES:
         add_front_list_entry(doc, f"{caption}\t1", size=10.5)
-    doc.add_page_break()
+    add_page_break_once(doc)
 
     center_line("그림 목차", 16, True, 18)
     for caption, _ in FIGURES:
         add_front_list_entry(doc, f"{caption}\t1", size=10.5)
-    doc.add_page_break()
+    add_page_break_once(doc)
 
 
 def add_body(doc: Document) -> None:
@@ -998,9 +1119,11 @@ def add_body(doc: Document) -> None:
     }
     for section in SECTION_DATA:
         doc.add_heading(section["heading"], level=1)
+        mark_content_added(doc)
         for sub in section["subs"]:
             subheading, paragraphs, *maybe_fig = sub
             doc.add_heading(subheading, level=2)
+            mark_content_added(doc)
             for para in compact_paragraphs(paragraphs):
                 add_para(doc, para)
             key = re.match(r"(\d+\.\d+)", subheading).group(1)
@@ -1040,8 +1163,9 @@ def add_expansion_paragraphs(doc: Document, subheading: str) -> None:
 
 
 def add_references(doc: Document) -> None:
-    doc.add_page_break()
+    add_page_break_once(doc)
     doc.add_heading("참고문헌", level=1)
+    mark_content_added(doc)
     for i, ref in enumerate(REFERENCES, start=1):
         p = doc.add_paragraph()
         p.paragraph_format.left_indent = Pt(16)
@@ -1053,8 +1177,9 @@ def add_references(doc: Document) -> None:
 
 
 def add_back_matter(doc: Document) -> None:
-    doc.add_page_break()
+    add_page_break_once(doc)
     doc.add_heading("Abstract", level=1)
+    mark_content_added(doc)
     for para in [
         "Ammonia is increasingly treated as a hydrogen carrier and carbon-free fuel, but high-temperature ammonia environments can turn the useful chemistry of gas nitriding into an unwanted degradation mechanism. This review summarizes recent literature on unwanted nitriding and nitridation corrosion in ammonia energy systems, including ammonia cracking reactors, ammonia combustion walls, ammonia-fueled gas turbine components, engine-related steels, and liquid-ammonia storage infrastructure.",
         "The reviewed studies indicate that nitridation damage is governed not only by ammonia concentration but also by nitriding potential, wall temperature, water vapor, hydrogen, reactor position, alloy chemistry, oxide-scale integrity, coating defects, stress, and exposure time. Fe, Cr, Al, Ni, and Mo can each contribute to either protection or degradation depending on where the nitride phases form and whether the resulting layer remains continuous and adherent.",
@@ -1068,8 +1193,9 @@ def add_appendix_depth(doc: Document) -> None:
     extra_notes = int(os.environ.get("EXTRA_REVIEW_NOTES", "0"))
     if extra_notes <= 0:
         return
-    doc.add_page_break()
+    add_page_break_once(doc)
     doc.add_heading("부록 A. 문헌별 검토 메모", level=1)
+    mark_content_added(doc)
     notes = [
         ("고온 암모니아 구조재 리뷰", "고온 NH3 장치에서 ferritic steel과 austenitic stainless steel의 손상모드를 같은 열화 프레임으로 묶어 주며, 촉매·질화열처리·구조재 손상을 연결하는 출발점이다."),
         ("암모니아 화염 질화", "화염-벽 반응에서 벽면 NH3 농도와 NH2 라디칼의 역할을 분리해 보려는 시도라는 점에서 연소공학과 표면공학을 연결한다."),
@@ -1082,6 +1208,7 @@ def add_appendix_depth(doc: Document) -> None:
     for i in range(extra_notes):
         label, body = notes[i % len(notes)]
         doc.add_heading(f"A.{i+1} {label}", level=2)
+        mark_content_added(doc)
         add_para(doc, body)
         add_para(doc, "이 항목은 본문에서 제시한 통합 프레임을 문헌 단위로 다시 점검하기 위한 메모이다. 실제 제출본에서는 각 원문의 실험 조건, 합금 조성, 노출 시간, 분석법, 원자료 수치까지 확인하여 표 형태의 체계적 문헌고찰로 확장하는 것이 바람직하다.")
 

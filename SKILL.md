@@ -25,6 +25,7 @@ If the user is new, opened this downloaded folder as a Codex project, or does no
 10. Keep project-specific artifacts isolated: each thesis/review project gets its own folder containing its configs, ledgers, generated scripts, source images, QA images, DOCX/PDF versions, and page maps.
 11. When the user asks to keep this workflow synchronized with GitHub, use `references/github-sync-workflow.md` and `scripts/github_sync.py`. If remote URL, git identity, or credentials are missing, prepare the local repo and ask for only the missing values instead of guessing.
 12. For every figure/table page, follow `references/visual-item-layout-policy.md`: no clipping, no page break continuation, no body text, centered layout in the rendered PDF.
+13. Final DOCX/PDF outputs must not contain intentionally blank pages. If Word inserts a blank page, remove the cause and re-export rather than delivering it.
 
 ## Required Project Inputs
 
@@ -94,6 +95,7 @@ When the task is a review paper:
    - Use `scripts/thesis_tool.py render-pdf <docx> --out <pdf>` on macOS. This opens the DOCX in Microsoft Word and saves it as PDF.
    - Use a PDF-page rasterizer on the Word-exported PDF for visual QA. If page-image rendering fails, manually inspect the Word-exported PDF and state the limitation.
    - Never use a non-Word PDF export for final page counts, TOC/list page-number audits, or final deliverables unless the user explicitly approves a fallback.
+   - Generated raster figure text must use Batang for Korean text and Times New Roman for Latin text. If the required local font files are unavailable, stop and ask for the font path instead of silently substituting another font.
 
 6. **Audit Page Numbers**
    - Run `scripts/thesis_tool.py pdf-map <pdf> --out <map.json>` to get detected heading, figure, and table pages.
@@ -101,13 +103,18 @@ When the task is a review paper:
    - Patch front matter with `scripts/thesis_tool.py patch-frontmatter <docx> --map <map.json> --out <docx>`.
    - Re-export the PDF through Microsoft Word after patching.
 
-7. **Visual QA**
+7. **Typography And Blank-Page Audit**
+   - Run `scripts/docx_font_audit.py <docx>` before final delivery. Fix any non-Batang East Asian font slot, non-Times Latin font slot, or nonblack explicit text color.
+   - Render every Word-exported PDF page to PNGs, then run `scripts/pdf_blank_page_audit.py <pdf> --rendered-dir <all-page-png-dir>`.
+   - If a blank page is detected, fix the page break, section break, front-matter spacing, or visual-page sizing that caused it, then re-export and rerun the audit.
+
+8. **Visual QA**
    - Inspect the table of contents, list of tables, list of figures, and every page touched by the change.
    - Check for wrong numbering, stale page numbers, broken captions, image overflow, clipping, table row/page splitting, excessive blank space, failed centering, text overlap, and accidental layout changes.
    - For rendered figure/table page PNGs, use `scripts/visual_page_qa.py <page-images>` as a screening check when available, then visually inspect the Word-exported PDF.
    - For moved figures, inspect the page before, the figure page, and the page after.
 
-8. **Final Response**
+9. **Final Response**
    - Report only the new DOCX/PDF paths, the high-level changes, and what was verified.
    - Mention any render limitation or unresolved preflight/evidence-ledger items.
 
@@ -124,6 +131,8 @@ When the task is a review paper:
 - `scripts/review_preflight.py`: checks a review config for missing required metadata and prints the exact user questions to ask before drafting.
 - `scripts/github_sync.py`: initializes git, commits changes, and pushes to GitHub when a remote and credentials are configured.
 - `scripts/visual_page_qa.py`: screens rendered page images for content centering and edge-clipping risk.
+- `scripts/docx_font_audit.py`: audits DOCX font slots and explicit text color before delivery.
+- `scripts/pdf_blank_page_audit.py`: audits rendered PDF page images for blank pages.
 - `references/snu-thesis-rules.md`: compact SNU thesis production rules and scientific-writing guardrails.
 - `references/materials-engineering-defaults.yaml`: optional baseline terminology and evidence rules for materials science/engineering theses.
 - `references/frontmatter-fields-template.json`: metadata slots for the locked front-matter template.
@@ -140,3 +149,4 @@ When the task is a review paper:
 - If a user says a figure rotation/layout is intentional, treat it as locked.
 - If front-matter metadata changes, edit only the corresponding slot. Do not restyle or reflow the entire cover/title/approval layout.
 - If required thesis metadata is missing, ask before generation instead of hiding it as `[확인 필요]` in the manuscript.
+- If the font audit or blank-page audit fails, the version is not deliverable; fix, re-export, and audit again.

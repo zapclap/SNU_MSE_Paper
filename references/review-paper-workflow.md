@@ -15,6 +15,7 @@ Use this reference when the user asks for a review paper, literature-review thes
 9. Keep every manuscript in its own project folder. Never place topic-specific configs, source images, generated figures, builder scripts, ledgers, QA images, or DOCX/PDF outputs in the skill root.
 10. If GitHub sync is enabled, commit reusable workflow changes with `scripts/github_sync.py` after validation.
 11. For visual pages, apply `references/visual-item-layout-policy.md` and verify centering from the Word-exported PDF.
+12. Do not deliver final outputs with blank pages. Audit all rendered PDF pages and remove any accidental blank page before delivery.
 
 ## Project Folder Isolation
 
@@ -136,6 +137,7 @@ If the user wants images copied from papers:
    - use the image only in an internal draft and mark `needs_permission: true`, or
    - redraw it as an original schematic and cite the source as inspiration.
 5. Do not leave imported images uncited.
+6. If the user requires strict visible typography, do not silently use source screenshots with embedded labels in other fonts. Ask whether to keep the original source image as an explicit exception or redraw/adapt the figure with Batang/Times New Roman labels.
 
 ## Outline Construction
 
@@ -161,6 +163,7 @@ Avoid a pure annotated bibliography. Every cited source should support a synthes
 - Keep imported figure credits in captions and references.
 - Use only black font color in the document. No colored headings, colored table text, or colored emphasis.
 - Use Batang for all Korean text and Times New Roman for all English/Latin text.
+- Generated raster figures must also follow the typography rule for visible labels. If Batang or Times New Roman font files cannot be found locally, ask for the font path before building the final manuscript.
 - Omit acknowledgements unless the user asks to include them.
 
 ## Front Matter Rules
@@ -206,6 +209,18 @@ Before drafting, ask whether the target page count is strict or flexible. If str
    - reduce image heights before deleting content.
 6. Re-export until the target page count is reached or the remaining difference is explicitly reported.
 
+## Typography And Blank-Page Gates
+
+Before final delivery:
+
+1. Run `scripts/docx_font_audit.py <docx>`.
+2. Export the DOCX to PDF through Microsoft Word.
+3. Render every PDF page to PNG, not only changed pages.
+4. Run `scripts/pdf_blank_page_audit.py <pdf> --rendered-dir <all-page-png-dir>`.
+5. If either audit fails, fix the DOCX/builder, regenerate a new `VerN`, and repeat the export and audits.
+
+This gate is mandatory for final versions. It is acceptable to show a rough internal draft before this only when the user explicitly asks for a placeholder draft.
+
 ## Revision Learning Loop
 
 When the user says "next time do X", "change the workflow", or corrects the process:
@@ -226,6 +241,7 @@ For each version, produce:
 - project-local evidence ledger (`ledgers/evidence-ledger.yaml` or JSON)
 - project-local imported image ledger if source figures are used
 - project-local page map JSON after PDF export
+- font-audit and blank-page-audit results in the project-local QA folder
 
 Final response should report paths, page count, verification performed, and unresolved preflight/evidence-ledger items.
 For the preferred workflow, there should be no unresolved manuscript placeholders; unresolved metadata belongs in the config/evidence ledger until the user answers.

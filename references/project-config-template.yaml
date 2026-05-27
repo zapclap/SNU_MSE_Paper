@@ -69,6 +69,10 @@ format:
   fonts:
     korean: "Batang"
     latin: "Times New Roman"
+    generated_figure_korean_font: "Batang"
+    generated_figure_latin_font: "Times New Roman"
+    fail_if_required_font_missing: true
+    audit_command: "scripts/docx_font_audit.py <docx>"
   body_pt: 11
   chapter_title_pt: 16
   section_title_pt: 14
@@ -129,6 +133,8 @@ rendering:
     - "Preview"
     - "generic DOCX renderer"
   fallback_pdf_page_renderer: ""
+  blank_page_audit_command: "scripts/pdf_blank_page_audit.py <pdf> --rendered-dir <all-page-png-dir>"
+  no_blank_pages: true
   inspect_pages:
     - "table of contents"
     - "list of tables"
@@ -148,3 +154,5 @@ final_checks:
   - "Figure/Table pages are centered in the rendered PDF"
   - "No figure/table is clipped, cropped, split, or continued across pages"
   - "No accidental changes to locked figures/layouts"
+  - "DOCX font audit passed: Korean Batang, Latin Times New Roman, black text"
+  - "Blank-page audit passed on all rendered PDF pages"

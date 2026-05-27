@@ -49,6 +49,7 @@ review_project:
   language: {q(args.language)}
   citation_style: {q(args.citation_style)}
   image_mode: {q(args.image_mode)}
+  source_figure_typography_policy: "ask_if_strict_typography"
   placeholder_draft_approved: false
 
 metadata:
@@ -78,8 +79,12 @@ layout_rules:
   typography:
     korean_font: "Batang"
     english_font: "Times New Roman"
+    generated_figure_korean_font: "Batang"
+    generated_figure_english_font: "Times New Roman"
     font_color: "000000"
     allow_colored_text: false
+    fail_if_required_font_missing: true
+    font_audit_command: "scripts/docx_font_audit.py <docx>"
   figures_and_tables:
     isolated_pages: true
     allowed_content_on_item_page: ["figure_or_table", "caption"]
@@ -101,6 +106,15 @@ paths:
   source_figures_dir: {q(project_dir / 'output' / 'source_figures')}
   qa_dir: {q(project_dir / 'output' / 'qa')}
   page_maps_dir: {q(project_dir / 'output' / 'page_maps')}
+  font_audit_dir: {q(project_dir / 'output' / 'qa' / 'font')}
+  blank_page_audit_dir: {q(project_dir / 'output' / 'qa' / 'blank_pages')}
+
+final_audits:
+  no_blank_pages: true
+  blank_page_audit_command: "scripts/pdf_blank_page_audit.py <pdf> --rendered-dir <all-page-png-dir>"
+  render_all_pages_before_blank_audit: true
+  font_audit_required: true
+  blank_page_audit_required: true
 '''
 
 
@@ -147,6 +161,12 @@ layout_rules:
   font_color: "000000"
   korean_font: "Batang"
   english_font: "Times New Roman"
+  generated_figure_korean_font: "Batang"
+  generated_figure_english_font: "Times New Roman"
+  fail_if_required_font_missing: true
+  font_audit_command: "scripts/docx_font_audit.py <docx>"
+  no_blank_pages: true
+  blank_page_audit_command: "scripts/pdf_blank_page_audit.py <pdf> --rendered-dir <all-page-png-dir>"
 '''
 
 

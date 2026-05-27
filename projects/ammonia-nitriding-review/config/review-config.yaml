@@ -16,13 +16,14 @@ review_project:
   citation_style: "numeric"
   format_scope: "서울대 재료공학 기본 양식"
   image_mode: "mixed"
+  source_figure_typography_policy: "ask_if_strict_typography"
   image_policy: "원문 그림을 가져와 출처를 남기고, 필요하면 생성 그림을 추가"
   deliverables: ["docx", "pdf"]
   latest_outputs:
-    docx: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/docx/김영광_암모니아질화_리뷰논문_Ver7.docx"
-    pdf: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/pdf/김영광_암모니아질화_리뷰논문_Ver7.pdf"
-    page_map: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/page_maps/김영광_암모니아질화_리뷰논문_Ver7_page_map.json"
-    rendered_pages: 63
+    docx: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/docx/김영광_암모니아질화_리뷰논문_Ver8.docx"
+    pdf: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/pdf/김영광_암모니아질화_리뷰논문_Ver8.pdf"
+    page_map: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/page_maps/김영광_암모니아질화_리뷰논문_Ver8_page_map.json"
+    rendered_pages: 55
   placeholder_draft_approved: false
 
 metadata:
@@ -57,8 +58,12 @@ layout_rules:
   typography:
     korean_font: "Batang"
     english_font: "Times New Roman"
+    generated_figure_korean_font: "Batang"
+    generated_figure_english_font: "Times New Roman"
     font_color: "000000"
     allow_colored_text: false
+    fail_if_required_font_missing: true
+    font_audit_command: "scripts/docx_font_audit.py <docx>"
   figures_and_tables:
     isolated_pages: true
     allowed_content_on_item_page: ["figure_or_table", "caption"]
@@ -71,3 +76,10 @@ layout_rules:
     two_item_gap_min_pt: 12
     pdf_center_tolerance_ratio: 0.08
     pdf_edge_margin_min_ratio: 0.02
+
+final_audits:
+  no_blank_pages: true
+  blank_page_audit_command: "scripts/pdf_blank_page_audit.py <pdf> --rendered-dir <all-page-png-dir>"
+  render_all_pages_before_blank_audit: true
+  font_audit_required: true
+  blank_page_audit_required: true

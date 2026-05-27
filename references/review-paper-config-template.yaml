@@ -13,6 +13,7 @@ review_project:
   language: "ko"
   citation_style: "numeric"
   image_mode: "source_figures_with_references" # generated_schematics | source_figures_with_references | mixed
+  source_figure_typography_policy: "ask_if_strict_typography" # keep_original_exception | redraw_when_strict | ask_if_strict_typography
   placeholder_draft_approved: false
 
 metadata:
@@ -58,8 +59,12 @@ layout_rules:
   typography:
     korean_font: "Batang"
     english_font: "Times New Roman"
+    generated_figure_korean_font: "Batang"
+    generated_figure_english_font: "Times New Roman"
     font_color: "000000"
     allow_colored_text: false
+    fail_if_required_font_missing: true
+    font_audit_command: "scripts/docx_font_audit.py <docx>"
   figures_and_tables:
     isolated_pages: true
     allowed_content_on_item_page: ["figure_or_table", "caption"]
@@ -82,6 +87,8 @@ paths:
   source_figures_dir: ""
   qa_dir: ""
   page_maps_dir: ""
+  font_audit_dir: ""
+  blank_page_audit_dir: ""
 
 source_search:
   date_performed: ""
@@ -116,6 +123,13 @@ page_control:
     - "repeated background paragraphs"
     - "oversized figures"
     - "long source-by-source notes"
+
+final_audits:
+  no_blank_pages: true
+  blank_page_audit_command: "scripts/pdf_blank_page_audit.py <pdf> --rendered-dir <all-page-png-dir>"
+  render_all_pages_before_blank_audit: true
+  font_audit_required: true
+  blank_page_audit_required: true
 
 revision_learning:
   reusable_workflow_updates: []

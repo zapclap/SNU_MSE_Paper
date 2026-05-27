@@ -1,0 +1,287 @@
+{
+  "mode": "rendered_images",
+  "rendered_dir": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages",
+  "page_count": 55,
+  "min_ink_ratio": 0.00045,
+  "crop_top_ratio": 0.0,
+  "crop_bottom_ratio": 0.08,
+  "ok": true,
+  "blank_pages": [],
+  "pages": [
+    {
+      "page": 1,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_001.png",
+      "ink_ratio": 0.028168336416222052
+    },
+    {
+      "page": 2,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_002.png",
+      "ink_ratio": 0.009976798143851507
+    },
+    {
+      "page": 3,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_003.png",
+      "ink_ratio": 0.05853176088188437
+    },
+    {
+      "page": 4,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_004.png",
+      "ink_ratio": 0.012449880783089375
+    },
+    {
+      "page": 5,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_005.png",
+      "ink_ratio": 0.0156243651565858
+    },
+    {
+      "page": 6,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_006.png",
+      "ink_ratio": 0.0618185123012606
+    },
+    {
+      "page": 7,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_007.png",
+      "ink_ratio": 0.0043880376789590175
+    },
+    {
+      "page": 8,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_008.png",
+      "ink_ratio": 0.0745111037454425
+    },
+    {
+      "page": 9,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_009.png",
+      "ink_ratio": 0.06796860799555209
+    },
+    {
+      "page": 10,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_010.png",
+      "ink_ratio": 0.02902156596490853
+    },
+    {
+      "page": 11,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_011.png",
+      "ink_ratio": 0.04197718305943738
+    },
+    {
+      "page": 12,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_012.png",
+      "ink_ratio": 0.047106183241203074
+    },
+    {
+      "page": 13,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_013.png",
+      "ink_ratio": 0.03517273086916078
+    },
+    {
+      "page": 14,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_014.png",
+      "ink_ratio": 0.04547884568092636
+    },
+    {
+      "page": 15,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_015.png",
+      "ink_ratio": 0.09319982464956643
+    },
+    {
+      "page": 16,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_016.png",
+      "ink_ratio": 0.04644113464561036
+    },
+    {
+      "page": 17,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_017.png",
+      "ink_ratio": 0.05922353972649609
+    },
+    {
+      "page": 18,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_018.png",
+      "ink_ratio": 0.05536583018807403
+    },
+    {
+      "page": 19,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_019.png",
+      "ink_ratio": 0.02836720946892341
+    },
+    {
+      "page": 20,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_020.png",
+      "ink_ratio": 0.07859334737562415
+    },
+    {
+      "page": 21,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_021.png",
+      "ink_ratio": 0.010382028718979546
+    },
+    {
+      "page": 22,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_022.png",
+      "ink_ratio": 0.023501234937504677
+    },
+    {
+      "page": 23,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_023.png",
+      "ink_ratio": 0.06305772664578144
+    },
+    {
+      "page": 24,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_024.png",
+      "ink_ratio": 0.07870561442150395
+    },
+    {
+      "page": 25,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_025.png",
+      "ink_ratio": 0.07419461759705753
+    },
+    {
+      "page": 26,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_026.png",
+      "ink_ratio": 0.012666930405123655
+    },
+    {
+      "page": 27,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_027.png",
+      "ink_ratio": 0.04448234199749805
+    },
+    {
+      "page": 28,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_028.png",
+      "ink_ratio": 0.07985180749943867
+    },
+    {
+      "page": 29,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_029.png",
+      "ink_ratio": 0.03991574625509211
+    },
+    {
+      "page": 30,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_030.png",
+      "ink_ratio": 0.037618014049418884
+    },
+    {
+      "page": 31,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_031.png",
+      "ink_ratio": 0.07780213200466175
+    },
+    {
+      "page": 32,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_032.png",
+      "ink_ratio": 0.041622205352465066
+    },
+    {
+      "page": 33,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_033.png",
+      "ink_ratio": 0.027598447507136976
+    },
+    {
+      "page": 34,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_034.png",
+      "ink_ratio": 0.07684732750970308
+    },
+    {
+      "page": 35,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_035.png",
+      "ink_ratio": 0.03609225143541437
+    },
+    {
+      "page": 36,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_036.png",
+      "ink_ratio": 0.05274626578421204
+    },
+    {
+      "page": 37,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_037.png",
+      "ink_ratio": 0.03362023800613727
+    },
+    {
+      "page": 38,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_038.png",
+      "ink_ratio": 0.016776973494285072
+    },
+    {
+      "page": 39,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_039.png",
+      "ink_ratio": 0.035319212633784895
+    },
+    {
+      "page": 40,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_040.png",
+      "ink_ratio": 0.02488586183668887
+    },
+    {
+      "page": 41,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_041.png",
+      "ink_ratio": 0.033982700182834905
+    },
+    {
+      "page": 42,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_042.png",
+      "ink_ratio": 0.04066098559774183
+    },
+    {
+      "page": 43,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_043.png",
+      "ink_ratio": 0.02259133726089792
+    },
+    {
+      "page": 44,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_044.png",
+      "ink_ratio": 0.06907951714478172
+    },
+    {
+      "page": 45,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_045.png",
+      "ink_ratio": 0.016232745624258235
+    },
+    {
+      "page": 46,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_046.png",
+      "ink_ratio": 0.07074427705368504
+    },
+    {
+      "page": 47,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_047.png",
+      "ink_ratio": 0.029657745891560727
+    },
+    {
+      "page": 48,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_048.png",
+      "ink_ratio": 0.030393362344563603
+    },
+    {
+      "page": 49,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_049.png",
+      "ink_ratio": 0.06055577533760304
+    },
+    {
+      "page": 50,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_050.png",
+      "ink_ratio": 0.041550568285094146
+    },
+    {
+      "page": 51,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_051.png",
+      "ink_ratio": 0.01343248473702781
+    },
+    {
+      "page": 52,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_052.png",
+      "ink_ratio": 0.03342778021320047
+    },
+    {
+      "page": 53,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_053.png",
+      "ink_ratio": 0.1132432345739733
+    },
+    {
+      "page": 54,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_054.png",
+      "ink_ratio": 0.03680541447924129
+    },
+    {
+      "page": 55,
+      "image": "projects/ammonia-nitriding-review/output/qa/ver8/all_pages/page_055.png",
+      "ink_ratio": 0.066757193110011
+    }
+  ]
+}

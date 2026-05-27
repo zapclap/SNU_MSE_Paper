@@ -28,10 +28,10 @@ review_project:
   image_policy: "원문 그림을 가져와 출처를 남기고, 필요하면 생성 그림을 추가"
   deliverables: ["docx", "pdf"]
   latest_outputs:
-    docx: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/docx/김영광_암모니아질화_리뷰논문_Ver7.docx"
-    pdf: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/pdf/김영광_암모니아질화_리뷰논문_Ver7.pdf"
-    page_map: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/page_maps/김영광_암모니아질화_리뷰논문_Ver7_page_map.json"
-    rendered_pages: 63
+    docx: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/docx/김영광_암모니아질화_리뷰논문_Ver8.docx"
+    pdf: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/pdf/김영광_암모니아질화_리뷰논문_Ver8.pdf"
+    page_map: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/page_maps/김영광_암모니아질화_리뷰논문_Ver8_page_map.json"
+    rendered_pages: 55
   revision_learning:
     - "사용자가 원문 이미지 사용과 레퍼런스 명시를 선호함. 다음 리뷰논문 워크플로우에서는 imported image ledger를 먼저 만든다."
     - "사용자가 [확인 필요] placeholder를 싫어함. 다음부터는 preflight로 필요한 메타데이터를 먼저 질문하고, 답변 후 원고를 생성한다."
@@ -40,6 +40,9 @@ review_project:
     - "그림/표 페이지에는 본문 텍스트를 넣지 않고 그림/표와 캡션만 둔다. 기본 1개, 작고 관련된 경우 최대 2개."
     - "감사의 글은 기본적으로 제외한다."
     - "표 목차와 그림 목차는 한 페이지에 억지로 넣지 않는다. 줄간격을 줄이지 않고 필요하면 다음 페이지로 넘긴다."
+    - "최종본에는 빈 페이지를 허용하지 않는다. 모든 PDF 페이지를 PNG로 렌더링한 뒤 blank-page audit를 통과해야 한다."
+    - "한글은 Batang, 영어/라틴은 Times New Roman으로 감사한다. 생성 그림의 글자도 가능한 한 동일 규칙을 적용하고, 폰트 파일이 없으면 중단한다."
+    - "원문 스크린샷 그림 내부 글꼴은 원본 보존과 strict typography가 충돌할 수 있다. 다음 작업부터는 원본 유지 예외를 받을지, Batang/Times New Roman으로 재도식화할지 먼저 확인한다."
   layout_rules:
     front_matter_order: ["cover", "approval", "korean_abstract", "toc", "list_of_tables", "list_of_figures", "body", "references", "appendix", "english_abstract"]
     approval_page_must_end_on_page: 2
@@ -54,6 +57,14 @@ review_project:
     figure_table_pdf_center_tolerance_ratio: 0.08
     figure_table_pdf_edge_margin_min_ratio: 0.02
     font_color: "000000"
+    korean_font: "Batang"
+    english_font: "Times New Roman"
+    generated_figure_korean_font: "Batang"
+    generated_figure_english_font: "Times New Roman"
+    fail_if_required_font_missing: true
+    font_audit_command: "scripts/docx_font_audit.py <docx>"
+    no_blank_pages: true
+    blank_page_audit_command: "scripts/pdf_blank_page_audit.py <pdf> --rendered-dir <all-page-png-dir>"
 
 institution:
   official_rules_file: "/Users/mac/Downloads/snu-thesis-production-skill/references/snu-thesis-rules.md"
@@ -85,6 +96,10 @@ format:
   fonts:
     korean: "Batang"
     latin: "Times New Roman"
+    generated_figure_korean_font: "Batang"
+    generated_figure_latin_font: "Times New Roman"
+    fail_if_required_font_missing: true
+    audit_command: "scripts/docx_font_audit.py <docx>"
   body_pt: 10.5
   chapter_title_pt: 16
   section_title_pt: 13
@@ -118,6 +133,8 @@ domain_rules:
 rendering:
   pdf_export_engine: "microsoft_word"
   pdf_export_command: "scripts/thesis_tool.py render-pdf <docx> --out <pdf>"
+  blank_page_audit_command: "scripts/pdf_blank_page_audit.py <pdf> --rendered-dir <all-page-png-dir>"
+  no_blank_pages: true
   inspect_pages:
     - "front matter"
     - "table of contents"
