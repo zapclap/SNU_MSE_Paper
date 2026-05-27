@@ -38,6 +38,17 @@ Recommended starting limits:
 
 If the page uses page numbers or running headers, keep the visual group clear of those areas.
 
+## Microscopy And Analytical Image Readability
+
+SEM, TEM, optical microscopy, EBSD, EDS maps, EDS line scans, Raman maps, XRD patterns, and similar evidence figures must be sized for interpretation, not merely presence.
+
+- Do not place six or more microscopy or analytical panels on one thesis page unless the user explicitly asks for a compact overview plate.
+- Surface SEM and cross-sectional SEM images should usually be one material per page. Two panels may share a page only when the source images remain clearly readable after Word PDF export.
+- EDS line-scan profiles should usually be one material per page because axes, legends, and elemental trends must remain legible.
+- EDS map panels may be grouped by material, but small extracted maps must be upscaled during figure composition; do not leave source-size thumbnails in a large white page.
+- If a composite figure is built from small raster panels, the composition script must enlarge panels to fill the allocated cell instead of using thumbnail-only resizing.
+- During visual QA, inspect at least one representative SEM page, one EDS line-scan page, and one EDS map page at rendered-page size before accepting the version.
+
 ## PDF QA Rules
 
 After Microsoft Word PDF export:
@@ -51,4 +62,3 @@ After Microsoft Word PDF export:
 7. For two items, the combined detected content-group center should be close to the page center and the gap between items should look intentional.
 
 Use `scripts/visual_page_qa.py` on rendered page PNGs when available. Treat it as a screening tool; final acceptance still requires visual inspection of the Word-exported PDF pages.
-
