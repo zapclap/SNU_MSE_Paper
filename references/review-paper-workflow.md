@@ -18,6 +18,8 @@ Use this reference when the user asks for a review paper, literature-review thes
 
 ## Project Folder Isolation
 
+For a first-time user who has only downloaded the folder and opened it in Codex, do not expect them to know the config structure. Read `references/new-user-onboarding.md`, run `python scripts/first_run_questions.py`, ask the checklist in plain language, and then create the project folder.
+
 For every new review paper, create or select a project folder first:
 
 ```bash

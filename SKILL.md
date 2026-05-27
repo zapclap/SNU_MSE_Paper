@@ -9,6 +9,8 @@ Use this skill as a production pipeline, not as a prose-only editing prompt. Alw
 
 For review papers, literature-review theses, survey papers, or "find the hottest topic and write a review" requests, also read `references/review-paper-workflow.md`. Start each manuscript in its own project folder with `scripts/init_review_project.py`; do not keep manuscript-specific config, ledgers, scripts, images, or outputs in the skill root.
 
+If the user is new, opened this downloaded folder as a Codex project, or does not know what information to provide, first read `references/new-user-onboarding.md` and run `python scripts/first_run_questions.py`. Ask the generated questions in plain language before creating a manuscript.
+
 ## Core Contract
 
 1. Preserve the latest user-edited source. Never overwrite it.
@@ -112,11 +114,13 @@ When the task is a review paper:
 ## Reusable Resources
 
 - `references/project-config-template.yaml`: copy into a thesis project and fill in once.
+- `references/new-user-onboarding.md`: first-use question flow for users who downloaded the folder and do not know the workflow.
 - `references/review-paper-workflow.md`: workflow for topic discovery, evidence-ledger construction, sourced images, page-count control, and reusable revision learning for review papers.
 - `references/review-paper-config-template.yaml`: starting config for review-thesis projects.
 - `references/github-sync-workflow.md`: local git/GitHub synchronization workflow for preserving reusable skill and project changes.
 - `references/visual-item-layout-policy.md`: figure/table page isolation, centering, fit, and PDF QA rules.
 - `scripts/init_review_project.py`: scaffolds a clean project folder so manuscript-specific files never pollute the skill root.
+- `scripts/first_run_questions.py`: prints the beginner-friendly starting checklist before project setup.
 - `scripts/review_preflight.py`: checks a review config for missing required metadata and prints the exact user questions to ask before drafting.
 - `scripts/github_sync.py`: initializes git, commits changes, and pushes to GitHub when a remote and credentials are configured.
 - `scripts/visual_page_qa.py`: screens rendered page images for content centering and edge-clipping risk.
