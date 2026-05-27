@@ -49,47 +49,91 @@ def load_yaml(path: Path) -> dict[str, Any]:
     return data
 
 
+def parse_scalar(value: str) -> Any:
+    cleaned = value.strip()
+    if cleaned in {"", "null", "None"}:
+        return None
+    if cleaned in {"true", "True"}:
+        return True
+    if cleaned in {"false", "False"}:
+        return False
+    if cleaned == "[]":
+        return []
+    if cleaned.startswith("[") and cleaned.endswith("]"):
+        inner = cleaned[1:-1].strip()
+        if not inner:
+            return []
+        return [part.strip().strip('"').strip("'") for part in inner.split(",")]
+    if (cleaned.startswith('"') and cleaned.endswith('"')) or (cleaned.startswith("'") and cleaned.endswith("'")):
+        return cleaned[1:-1]
+    if re.fullmatch(r"-?\d+", cleaned):
+        return int(cleaned)
+    return cleaned
+
+
+def strip_comment(line: str) -> str:
+    in_single = False
+    in_double = False
+    for idx, ch in enumerate(line):
+        if ch == "'" and not in_double:
+            in_single = not in_single
+        elif ch == '"' and not in_single:
+            in_double = not in_double
+        elif ch == "#" and not in_single and not in_double:
+            return line[:idx]
+    return line
+
+
 def fallback_parse(path: Path) -> dict[str, Any]:
-    """Tiny fallback for simple metadata blocks when PyYAML is unavailable."""
-    text = path.read_text(encoding="utf-8")
-    data: dict[str, Any] = {"metadata": {"committee": {}}}
-    current = None
-    in_committee = False
-    for raw in text.splitlines():
-        if not raw.strip() or raw.lstrip().startswith("#"):
+    """Small indentation-based YAML fallback for simple project config files."""
+    root: dict[str, Any] = {}
+    stack: list[tuple[int, Any, Any, str | None]] = [(-1, root, None, None)]
+
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = strip_comment(raw).rstrip()
+        if not line.strip():
             continue
-        if not raw.startswith(" ") and raw.endswith(":"):
-            current = raw[:-1]
-            data.setdefault(current, {})
-            in_committee = False
-            continue
-        if current == "metadata" and re.match(r"^  committee:\s*$", raw):
-            data["metadata"]["committee"] = {}
-            in_committee = True
-            continue
-        m = re.match(r"^  ([A-Za-z0-9_]+):\s*(.*)$", raw)
-        if current and m:
-            key, val = m.groups()
-            cleaned = val.strip().strip('"')
-            if cleaned == "[]":
-                parsed: Any = []
-            elif cleaned == "" and key == "committee":
-                parsed = {}
+        indent = len(line) - len(line.lstrip(" "))
+        content = line.strip()
+
+        while stack and indent <= stack[-1][0]:
+            stack.pop()
+        parent = stack[-1][1]
+
+        if content.startswith("- "):
+            item_text = content[2:].strip()
+            if not isinstance(parent, list):
+                grand_parent = stack[-1][2]
+                key = stack[-1][3]
+                new_list: list[Any] = []
+                if isinstance(grand_parent, dict) and key is not None:
+                    grand_parent[key] = new_list
+                    stack[-1] = (stack[-1][0], new_list, grand_parent, key)
+                    parent = new_list
+                else:
+                    continue
+            if ":" in item_text:
+                key, value = item_text.split(":", 1)
+                item: dict[str, Any] = {key.strip(): parse_scalar(value)}
+                parent.append(item)
+                stack.append((indent, item, parent, None))
             else:
-                parsed = cleaned
-            data.setdefault(current, {})[key] = parsed
-            in_committee = key == "committee"
-        m = re.match(r"^    ([A-Za-z0-9_]+):\s*(.*)$", raw)
-        if current == "metadata" and in_committee and m:
-            key, val = m.groups()
-            cleaned = val.strip().strip('"')
-            if key == "members" and cleaned in {"", "[]"}:
-                data["metadata"].setdefault("committee", {})[key] = []
-            else:
-                data["metadata"].setdefault("committee", {})[key] = cleaned
-        if current == "metadata" and in_committee and re.match(r"^      -\s+", raw):
-            data["metadata"].setdefault("committee", {}).setdefault("members", []).append(raw.strip())
-    return data
+                parent.append(parse_scalar(item_text))
+            continue
+
+        if ":" not in content:
+            continue
+        key, value = content.split(":", 1)
+        key = key.strip()
+        value = value.strip()
+        parsed = parse_scalar(value)
+        if value == "":
+            parsed = {}
+            stack.append((indent, parsed, parent, key))
+        if isinstance(parent, dict):
+            parent[key] = parsed
+
+    return root
 
 
 def get_path(data: dict[str, Any], dotted: str) -> Any:

@@ -1,20 +1,32 @@
 project:
   name: "김영광_암모니아질화_리뷰논문"
-  output_dir: "/Users/mac/Downloads/snu-thesis-production-skill/output"
+  project_dir: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review"
+  output_dir: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output"
   latest_source_docx: ""
   version_pattern: "Ver{n}"
   make_pdf_for_every_version: true
 
 review_project:
   workflow_reference: "/Users/mac/Downloads/snu-thesis-production-skill/references/review-paper-workflow.md"
-  review_config: "/Users/mac/Downloads/snu-thesis-production-skill/review-config.yaml"
-  topic_request: "현재 암모니아 질화와 관련되어 가장 핫한 주제를 찾아서 리뷰 논문 작성"
+  review_config: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/config/review-config.yaml"
+  document_type: "리뷰 논문"
+  topic_request: "기존에 만들던 암모니아 주제 그대로 가져가며 수정"
   selected_topic: "암모니아 에너지 시스템에서의 원치 않는 질화 및 질화부식"
   topic_rationale: "2024-2026년 문헌에서 암모니아 크래킹, 암모니아 연소, 가스터빈, 선박엔진, 저장·수송 인프라의 재료 신뢰성 문제가 집중적으로 증가하고 있음."
   target_pages: 50
+  page_count_policy:
+    min_pages: 50
+    max_pages_exclusive: 100
+    exact_target_required: false
+    allow_over_target: true
+    confirm_before_generation: true
+    user_confirmed: true
   language: "ko"
   citation_style: "numeric"
-  image_mode: "source_figures_with_references"
+  format_scope: "서울대 재료공학 기본 양식"
+  image_mode: "mixed"
+  image_policy: "원문 그림을 가져와 출처를 남기고, 필요하면 생성 그림을 추가"
+  deliverables: ["docx", "pdf"]
   revision_learning:
     - "사용자가 원문 이미지 사용과 레퍼런스 명시를 선호함. 다음 리뷰논문 워크플로우에서는 imported image ledger를 먼저 만든다."
     - "사용자가 [확인 필요] placeholder를 싫어함. 다음부터는 preflight로 필요한 메타데이터를 먼저 질문하고, 답변 후 원고를 생성한다."
