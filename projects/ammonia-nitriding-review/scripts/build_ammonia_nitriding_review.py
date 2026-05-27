@@ -790,6 +790,14 @@ def add_para(doc: Document, text: str, style: str | None = None, align=None, fir
     apply_font(run, 10.5 if style is None else 12)
 
 
+def add_front_list_entry(doc: Document, text: str, size: float = 8.8) -> None:
+    p = doc.add_paragraph()
+    p.paragraph_format.line_spacing = 1.55
+    p.paragraph_format.space_after = Pt(3)
+    run = p.add_run(text)
+    apply_font(run, size)
+
+
 def require_metadata() -> None:
     if os.environ.get("ALLOW_PLACEHOLDER_DRAFT") == "1":
         return
@@ -966,17 +974,17 @@ def add_front_matter(doc: Document) -> None:
         toc_items.append("부록 A. 문헌별 검토 메모")
     toc_items += ["Abstract"]
     for item in toc_items:
-        add_para(doc, f"\t{item}\t1", first_indent=False)
+        add_front_list_entry(doc, f"\t{item}\t1", size=10.5)
     doc.add_page_break()
 
     center_line("표 목차", 16, True, 18)
     for caption, _ in TABLES:
-        add_para(doc, f"{caption}\t1", first_indent=False)
+        add_front_list_entry(doc, f"{caption}\t1", size=10.5)
     doc.add_page_break()
 
     center_line("그림 목차", 16, True, 18)
     for caption, _ in FIGURES:
-        add_para(doc, f"{caption}\t1", first_indent=False)
+        add_front_list_entry(doc, f"{caption}\t1", size=10.5)
     doc.add_page_break()
 
 
@@ -1012,17 +1020,11 @@ def add_body(doc: Document) -> None:
             if maybe_fig:
                 fig_indices.append(maybe_fig[0])
             fig_indices.extend(sourced_figure_map.get(key, []))
-            group: list[int] = []
             for fig_idx in fig_indices:
                 if fig_idx in table_inserted:
                     continue
-                group.append(fig_idx)
                 table_inserted.add(fig_idx)
-                if len(group) == 2:
-                    add_figure_group(doc, group)
-                    group = []
-            if group:
-                add_figure_group(doc, group)
+                add_figure(doc, fig_idx)
             if ADD_EXPANSION_PARAGRAPHS:
                 add_expansion_paragraphs(doc, subheading)
 

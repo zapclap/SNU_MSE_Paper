@@ -18,19 +18,24 @@ review_project:
   image_mode: "mixed"
   image_policy: "원문 그림을 가져와 출처를 남기고, 필요하면 생성 그림을 추가"
   deliverables: ["docx", "pdf"]
+  latest_outputs:
+    docx: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/docx/김영광_암모니아질화_리뷰논문_Ver7.docx"
+    pdf: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/pdf/김영광_암모니아질화_리뷰논문_Ver7.pdf"
+    page_map: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/page_maps/김영광_암모니아질화_리뷰논문_Ver7_page_map.json"
+    rendered_pages: 63
   placeholder_draft_approved: false
 
 metadata:
   author: "김영광"
   korean_title: "암모니아 에너지 시스템에서의 원치 않는 질화 및 질화부식: 기구, 합금 의존성, 억제 전략에 관한 리뷰"
   english_title: "Unwanted Nitriding and Nitridation Corrosion in Ammonia Energy Systems: Mechanisms, Alloy Dependence, and Mitigation Strategies"
-  degree_name: ""
+  degree_name: "석사학위논문"
   school_name: "서울대학교 대학원"
-  department: ""
-  major: ""
-  advisor: ""
-  submission_month: ""
-  approval_month: ""
+  department: "재료공학부"
+  major: "하이브리드재료전공"
+  advisor: "한흥남"
+  submission_month: "2026년 8월"
+  approval_month: "2026년 6월"
   acknowledgements: false
   committee:
     chair: "이명규"

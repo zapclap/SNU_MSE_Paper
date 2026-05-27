@@ -174,6 +174,8 @@ Default review-paper front matter:
 
 Do not create a separate submission/title page in between the cover and approval page unless the user explicitly requests the full official front-matter set.
 
+Do not reduce the line spacing of the table of contents, list of tables, or list of figures merely to fit them on one page. These list pages may continue to additional pages when needed.
+
 ## Figure And Table Layout
 
 - Every figure or table page is isolated from body prose.

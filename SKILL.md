@@ -134,6 +134,7 @@ When the task is a review paper:
 
 - If a change can alter pagination, always re-export PDF through Microsoft Word and refresh lists.
 - If a caption becomes too long, shorten it and move detailed interpretation into body prose.
+- Do not shrink table-of-contents, list-of-tables, or list-of-figures line spacing just to force them onto one page; let list pages continue naturally unless the user explicitly asks for compact lists.
 - If evidence was not directly established, write the statement as an interpretation, limitation, or possibility.
 - If a source/citation cannot be verified, do not invent bibliographic data.
 - If a user says a figure rotation/layout is intentional, treat it as locked.

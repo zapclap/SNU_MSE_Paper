@@ -1,0 +1,202 @@
+{
+  "pdf": "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/pdf/김영광_암모니아질화_리뷰논문_Ver7.pdf",
+  "page_count": 63,
+  "figures": {
+    "1": {
+      "physical_page": 12,
+      "printed_page": 12
+    },
+    "2": {
+      "physical_page": 14,
+      "printed_page": 14
+    },
+    "11": {
+      "physical_page": 16,
+      "printed_page": 16
+    },
+    "12": {
+      "physical_page": 18,
+      "printed_page": 18
+    },
+    "3": {
+      "physical_page": 20,
+      "printed_page": 20
+    },
+    "13": {
+      "physical_page": 22,
+      "printed_page": 22
+    },
+    "14": {
+      "physical_page": 24,
+      "printed_page": 24
+    },
+    "4": {
+      "physical_page": 29,
+      "printed_page": 29
+    },
+    "5": {
+      "physical_page": 33,
+      "printed_page": 33
+    },
+    "15": {
+      "physical_page": 35,
+      "printed_page": 35
+    },
+    "6": {
+      "physical_page": 37,
+      "printed_page": 37
+    },
+    "7": {
+      "physical_page": 43,
+      "printed_page": 43
+    },
+    "8": {
+      "physical_page": 45,
+      "printed_page": 45
+    },
+    "16": {
+      "physical_page": 49,
+      "printed_page": 49
+    },
+    "9": {
+      "physical_page": 53,
+      "printed_page": 53
+    },
+    "10": {
+      "physical_page": 59,
+      "printed_page": 59
+    }
+  },
+  "tables": {
+    "1": {
+      "physical_page": 10,
+      "printed_page": 10
+    },
+    "4": {
+      "physical_page": 27,
+      "printed_page": 27
+    },
+    "2": {
+      "physical_page": 40,
+      "printed_page": 40
+    },
+    "3": {
+      "physical_page": 47,
+      "printed_page": 47
+    },
+    "5": {
+      "physical_page": 51,
+      "printed_page": 51
+    },
+    "6": {
+      "physical_page": 56,
+      "printed_page": 56
+    }
+  },
+  "headings": {
+    "1. 서론": {
+      "physical_page": 8,
+      "printed_page": 8
+    },
+    "1. 본": {
+      "physical_page": 10,
+      "printed_page": 10
+    },
+    "1. 암모": {
+      "physical_page": 12,
+      "printed_page": 12
+    },
+    "2. 암모": {
+      "physical_page": 13,
+      "printed_page": 13
+    },
+    "1. NH": {
+      "physical_page": 16,
+      "printed_page": 16
+    },
+    "2. 금속": {
+      "physical_page": 18,
+      "printed_page": 18
+    },
+    "3. 온도": {
+      "physical_page": 20,
+      "printed_page": 20
+    },
+    "3. 대표": {
+      "physical_page": 22,
+      "printed_page": 22
+    },
+    "4. Fe": {
+      "physical_page": 24,
+      "printed_page": 24
+    },
+    "3. 제어": {
+      "physical_page": 25,
+      "printed_page": 25
+    },
+    "4. 제어": {
+      "physical_page": 27,
+      "printed_page": 27
+    },
+    "4. 암모": {
+      "physical_page": 29,
+      "printed_page": 29
+    },
+    "5. 암모": {
+      "physical_page": 33,
+      "printed_page": 33
+    },
+    "5. 질화": {
+      "physical_page": 35,
+      "printed_page": 35
+    },
+    "5. 합금": {
+      "physical_page": 41,
+      "printed_page": 41
+    },
+    "3. 합금": {
+      "physical_page": 47,
+      "printed_page": 47
+    },
+    "5. 진단": {
+      "physical_page": 51,
+      "printed_page": 51
+    },
+    "4. ht": {
+      "physical_page": 61,
+      "printed_page": 61
+    },
+    "1. ht": {
+      "physical_page": 61,
+      "printed_page": 61
+    },
+    "5. ht": {
+      "physical_page": 61,
+      "printed_page": 61
+    },
+    "4. IE": {
+      "physical_page": 61,
+      "printed_page": 61
+    },
+    "5. [1": {
+      "physical_page": 62,
+      "printed_page": 62
+    },
+    "5. [2": {
+      "physical_page": 62,
+      "printed_page": 62
+    }
+  },
+  "toc": {
+    "1. 서론": 8,
+    "2. 암모니아 질화의 열역학과 계면반응": 13,
+    "3. 제어된 암모니아 질화 공정의 최신 고도화": 25,
+    "4. 암모니아 에너지 시스템에서의 원치 않는 질화": 31,
+    "5. 합금계별 반응성과 보호전략": 41,
+    "6. 진단, 모델링, 데이터화": 50,
+    "7. 연구 공백과 향후 로드맵": 54,
+    "8. 결론": 58,
+    "참고문헌": 61,
+    "Abstract": 63
+  }
+}

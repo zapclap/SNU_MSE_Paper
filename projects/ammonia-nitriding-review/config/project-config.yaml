@@ -2,7 +2,7 @@ project:
   name: "김영광_암모니아질화_리뷰논문"
   project_dir: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review"
   output_dir: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output"
-  latest_source_docx: ""
+  latest_source_docx: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/docx/김영광_암모니아질화_리뷰논문_Ver7.docx"
   version_pattern: "Ver{n}"
   make_pdf_for_every_version: true
 
@@ -27,6 +27,11 @@ review_project:
   image_mode: "mixed"
   image_policy: "원문 그림을 가져와 출처를 남기고, 필요하면 생성 그림을 추가"
   deliverables: ["docx", "pdf"]
+  latest_outputs:
+    docx: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/docx/김영광_암모니아질화_리뷰논문_Ver7.docx"
+    pdf: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/pdf/김영광_암모니아질화_리뷰논문_Ver7.pdf"
+    page_map: "/Users/mac/Downloads/snu-thesis-production-skill/projects/ammonia-nitriding-review/output/page_maps/김영광_암모니아질화_리뷰논문_Ver7_page_map.json"
+    rendered_pages: 63
   revision_learning:
     - "사용자가 원문 이미지 사용과 레퍼런스 명시를 선호함. 다음 리뷰논문 워크플로우에서는 imported image ledger를 먼저 만든다."
     - "사용자가 [확인 필요] placeholder를 싫어함. 다음부터는 preflight로 필요한 메타데이터를 먼저 질문하고, 답변 후 원고를 생성한다."
@@ -34,6 +39,7 @@ review_project:
     - "한글은 바탕체, 영어/라틴은 Times New Roman, 문서 글씨색은 검정으로 고정한다."
     - "그림/표 페이지에는 본문 텍스트를 넣지 않고 그림/표와 캡션만 둔다. 기본 1개, 작고 관련된 경우 최대 2개."
     - "감사의 글은 기본적으로 제외한다."
+    - "표 목차와 그림 목차는 한 페이지에 억지로 넣지 않는다. 줄간격을 줄이지 않고 필요하면 다음 페이지로 넘긴다."
   layout_rules:
     front_matter_order: ["cover", "approval", "korean_abstract", "toc", "list_of_tables", "list_of_figures", "body", "references", "appendix", "english_abstract"]
     approval_page_must_end_on_page: 2
@@ -52,18 +58,18 @@ review_project:
 institution:
   official_rules_file: "/Users/mac/Downloads/snu-thesis-production-skill/references/snu-thesis-rules.md"
   school_name: "서울대학교 대학원"
-  degree_name: ""
-  department: ""
-  major: ""
+  degree_name: "석사학위논문"
+  department: "재료공학부"
+  major: "하이브리드재료전공"
   author: "김영광"
   student_id: ""
-  advisor: ""
+  advisor: "한흥남"
   committee:
     chair: "이명규"
     vice_chair: "한흥남"
     member: "외부심사위원 김동익"
-  submission_month: ""
-  approval_month: ""
+  submission_month: "2026년 8월"
+  approval_month: "2026년 6월"
   korean_title: "암모니아 에너지 시스템에서의 원치 않는 질화 및 질화부식: 기구, 합금 의존성, 억제 전략에 관한 리뷰"
   english_title: "Unwanted Nitriding and Nitridation Corrosion in Ammonia Energy Systems: Mechanisms, Alloy Dependence, and Mitigation Strategies"
 
